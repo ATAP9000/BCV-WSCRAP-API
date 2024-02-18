@@ -3,15 +3,18 @@ using System.Data;
 using System.Globalization;
 using System.Reflection;
 
-namespace BCV_WSCRAP_API.Services
+namespace BCV_WSCRAP_API.Utilities
 {
-    public class DataTableConverter : IDataTableConverter
+    public class DataTableConverter
     {
-        public IKeyPhrasesConverter _keyPhrasesConverter { get; set; }
+        private readonly KeyPhrasesConverter _keyPhrasesConverter;
 
-        public DataTableConverter(IKeyPhrasesConverter keyPhrasesConverter)
+        private readonly CultureInfo _targetCulture;
+
+        public DataTableConverter(IConfiguration configuration)
         {
-            _keyPhrasesConverter = keyPhrasesConverter;
+            _keyPhrasesConverter = new(configuration);
+            _targetCulture = new CultureInfo(configuration["TargetCulture"], false);
         }
 
         public DataTable HtmlToDataTable(string htmlCode)
@@ -39,7 +42,7 @@ namespace BCV_WSCRAP_API.Services
             return data;
         }
 
-        private static T GetItem<T>(DataRow dr)
+        private T GetItem<T>(DataRow dr)
         {
             Type temp = typeof(T);
             T obj = Activator.CreateInstance<T>();
@@ -52,13 +55,15 @@ namespace BCV_WSCRAP_API.Services
                     {
                         if (pro.PropertyType == typeof(decimal))
                         {
-                            decimal.TryParse(dr[column.ColumnName].ToString().Replace(".", "").Replace(",", "."), CultureInfo.InvariantCulture, out decimal value);
+                            decimal.TryParse(dr[column.ColumnName].ToString(), _targetCulture, out decimal value);
                             pro.SetValue(obj, value, null);
                         }
-                        else if(pro.PropertyType == typeof(DateTime))
+                        else if (pro.PropertyType == typeof(DateTime))
                         {
-                            DateTime.TryParseExact(dr[column.ColumnName].ToString(), "dd-MM-yyyy", CultureInfo.InvariantCulture,DateTimeStyles.None, out DateTime dt);
-                            pro.SetValue(obj, DateTime.ParseExact(dt.ToString("yyyy-MM-dd"), "yyyy-MM-dd", CultureInfo.InvariantCulture), null);
+                            if(dr[column.ColumnName].ToString().Contains('-'))
+                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString().Replace("-","/"), _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
+                            else
+                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString(), _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
                         }
                         else
                             pro.SetValue(obj, Convert.ChangeType(dr[column.ColumnName], pro.PropertyType), null);

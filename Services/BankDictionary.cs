@@ -1,6 +1,6 @@
 ﻿namespace BCV_WSCRAP_API.Services
 {
-    public class BankDictionary : IBankDictionary
+    public class BankDictionary
     {
         public Dictionary<string, string> BankCodes { get; init; }
 

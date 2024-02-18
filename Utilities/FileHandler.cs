@@ -1,30 +1,26 @@
-﻿using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 
 namespace BCV_WSCRAP_API.Utilities
 {
     public static class FileHandler
     {
-        public static string CurrentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        private static readonly string CurrentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         public static string GetFile(string fileName)
         {
-            StringBuilder htmlString = new();
             string path = CurrentPath + "\\" + fileName;
-            string[] lines = File.ReadAllLines(path);
-            foreach (string line in lines)
-                htmlString.AppendLine(line.Trim());
-            return htmlString.ToString();
+            StringBuilder result = new();
+            foreach (var line in File.ReadLines(path))
+                result.AppendLine(line.Trim());
+            return result.ToString();
         }
 
         public static void SaveFile(Stream stream, string fileName)
         {
             string path = CurrentPath + "\\" + fileName;
-            using (var fs = new FileStream(path, FileMode.OpenOrCreate))
-            {
-                stream.CopyTo(fs);
-            }
+            using var fileStream = new FileStream(path, FileMode.OpenOrCreate);
+            stream.CopyTo(fileStream);
         }
     }
 }

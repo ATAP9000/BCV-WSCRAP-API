@@ -5,11 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 var configSection = builder.Configuration.GetSection("AppFeatures");
 
 // Add services to the container.
-
-builder.Services.AddTransient<IScrapper>(x => new Scrapper(builder.Configuration["BrowserRoute"]));
-builder.Services.AddSingleton<IBankDictionary>(x => new BankDictionary(builder.Configuration));
-builder.Services.AddSingleton<IKeyPhrasesConverter>(x => new KeyPhrasesConverter(builder.Configuration));
-builder.Services.AddSingleton<IDataTableConverter>(x => new DataTableConverter(x.GetRequiredService<IKeyPhrasesConverter>()));
+builder.Services.AddSingleton(x => new BankDictionary(builder.Configuration));
+builder.Services.AddSingleton(x => new ConnectionStrings(builder.Configuration.GetSection("ConnectionStrings")));
+builder.Services.AddTransient(x => new Scrapper(builder.Configuration, x.GetRequiredService<ConnectionStrings>()));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
