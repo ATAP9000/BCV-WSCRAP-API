@@ -11,13 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="FileTests\Files\ThisFileExist.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="FileTests\Files\ThisFileExist.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <AdditionalFiles Include="ThisFileExist.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
   </ItemGroup>
 
   <ItemGroup>

@@ -39,13 +39,13 @@ namespace BCV_WSCRAP_API.Test.FileTests
         public void FileHandler_GetFile_ReturnStringIfFileExist()
         {
             //Arrange
-            string filename = "ThisFileExist.txt";
+            string filePath = "ThisFileExist.txt";
 
             //Act
-            var result = FileHandler.GetFile(filename);
+            var result = FileHandler.GetFile(filePath);
 
             //Assert
-            result.Should().BeEmpty();
+            result.Should().NotBeEmpty();
         }
 
         [Fact]
