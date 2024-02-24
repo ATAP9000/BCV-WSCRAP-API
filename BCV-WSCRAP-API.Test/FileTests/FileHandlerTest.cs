@@ -39,7 +39,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         public void FileHandler_GetFile_ReturnStringIfFileExist()
         {
             //Arrange
-            string filePath = "Resources\\ThisFileExist.txt";
+            string filePath = Path.Combine("Resources", "ThisFileExist.txt");
 
             //Act
             var result = FileHandler.GetFile(filePath);

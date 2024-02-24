@@ -12,7 +12,7 @@ namespace BCV_WSCRAP_API.Utilities
             StringBuilder result = new();
             try
             {
-                string path = CurrentPath + "\\" + fileName;
+                string path = Path.Combine(CurrentPath, fileName);
                 foreach (var line in File.ReadLines(path))
                     result.AppendLine(line.Trim());
             }
@@ -30,7 +30,7 @@ namespace BCV_WSCRAP_API.Utilities
                 if (stream == null)
                      throw new Exception("Stream Not Found");
 
-                string path = CurrentPath + "\\" + fileName;
+                string path = Path.Combine(CurrentPath, fileName);
                 using var fileStream = new FileStream(path, FileMode.OpenOrCreate);
                 stream.CopyTo(fileStream);
             }

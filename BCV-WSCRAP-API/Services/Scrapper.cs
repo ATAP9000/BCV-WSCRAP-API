@@ -12,6 +12,7 @@ namespace BCV_WSCRAP_API.Services
         private readonly ConnectionStrings _connectionStrings;
         private readonly Scripts _scripts;
         private readonly string _interventionFile;
+        private const string SCRIPT_PATH = "Scripts";
 
         public Scrapper(IConfiguration configuration, ConnectionStrings connectionStrings)
         {
@@ -38,13 +39,15 @@ namespace BCV_WSCRAP_API.Services
 
         public async Task<List<Currency>> GetCurrentExchangeRate()
         {
-            string script = FileHandler.GetFile(_scripts.GetCurrentExchangeRate);
+            string scriptPath = Path.Combine(SCRIPT_PATH, _scripts.GetCurrentExchangeRate);
+            string script = FileHandler.GetFile(scriptPath);
             return await GetResultOfScript<List<Currency>>(_connectionStrings.BCVBase, script);
         }
 
         public async Task<Intervention> GetRecentIntervention()
         {
-            string script = FileHandler.GetFile(_scripts.GetMostRecentIntervention);
+            string scriptPath = Path.Combine(SCRIPT_PATH, _scripts.GetMostRecentIntervention);
+            string script = FileHandler.GetFile(scriptPath);
             return await GetResultOfScript<Intervention>(_connectionStrings.BCVExchangeRateIntervention, script);
         }
 
@@ -63,7 +66,8 @@ namespace BCV_WSCRAP_API.Services
 
         public async Task<List<Intervention>> GetInterventions()
         {
-            string script = FileHandler.GetFile(_scripts.GetInterventions);
+            string scriptPath = Path.Combine(SCRIPT_PATH, _scripts.GetInterventions);
+            string script = FileHandler.GetFile(scriptPath);
             string scriptResult = await GetResultOfScript<string>(_connectionStrings.BCVExchangeRateIntervention.ToString(), script);
             DataTable interventionsDT = _dataTableConverter.HtmlToDataTable(scriptResult);
             return _dataTableConverter.DataTableToList<Intervention>(interventionsDT);
