@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCV-WSCRAP-API", "BCV-WSCRAP-API.csproj", "{E8E449D4-9289-43CD-A4DD-C3EDE445AEBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCV-WSCRAP-API", "BCV-WSCRAP-API\BCV-WSCRAP-API.csproj", "{E3E28BFB-DAE1-4EA8-8940-19B8D6CF14CF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BCV-WSCRAP-API.Test", "BCV-WSCRAP-API.Test\BCV-WSCRAP-API.Test.csproj", "{2DD52831-C0A7-4EC8-9403-49412D5726D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8E449D4-9289-43CD-A4DD-C3EDE445AEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8E449D4-9289-43CD-A4DD-C3EDE445AEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8E449D4-9289-43CD-A4DD-C3EDE445AEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8E449D4-9289-43CD-A4DD-C3EDE445AEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3E28BFB-DAE1-4EA8-8940-19B8D6CF14CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3E28BFB-DAE1-4EA8-8940-19B8D6CF14CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3E28BFB-DAE1-4EA8-8940-19B8D6CF14CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3E28BFB-DAE1-4EA8-8940-19B8D6CF14CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD52831-C0A7-4EC8-9403-49412D5726D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD52831-C0A7-4EC8-9403-49412D5726D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD52831-C0A7-4EC8-9403-49412D5726D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD52831-C0A7-4EC8-9403-49412D5726D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
