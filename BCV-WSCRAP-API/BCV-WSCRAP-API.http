@@ -1,6 +1,6 @@
 @BCV_WSCRAP_API_HostAddress = http://localhost:5211
 
-GET {{BCV_WSCRAP_API_HostAddress}}/weatherforecast/
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/
 Accept: application/json
 
 ###

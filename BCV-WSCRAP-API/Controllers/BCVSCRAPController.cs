@@ -62,7 +62,7 @@ namespace BCV_WSCRAP_API.Controllers
                 _memoryCache.Set(_interventionsCacheName, interventions, TimeSpan.FromHours(_CacheHours));
             }
 
-            if (query == null || query.IsEmpty())
+            if (query?.IsEmpty() ?? true)
                 queryResult = interventions;
             else
             {
