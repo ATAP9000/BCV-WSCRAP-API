@@ -45,7 +45,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
             var result = FileHandler.GetFile(filePath);
 
             //Assert
-            result.Should().NotBeEmpty();
+            result.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
