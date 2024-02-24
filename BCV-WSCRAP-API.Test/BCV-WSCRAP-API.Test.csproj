@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <Content Include="FileTests\Files\ThisFileExist.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
