@@ -11,9 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="ThisFileExist.txt">
+    <Content Include="Resources\ThisFileExist.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
