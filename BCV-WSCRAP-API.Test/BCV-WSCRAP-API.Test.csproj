@@ -11,6 +11,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FileTests\Files\ThisFileExist.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="FileTests\Files\ThisFileExist.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
@@ -26,12 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BCV-WSCRAP-API\BCV-WSCRAP-API.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="FileTests\Files\ThisFileExist.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
