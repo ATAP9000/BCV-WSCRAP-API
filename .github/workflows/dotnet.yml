@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --logger trx --results-directory "TestResults-${{ 8.0.x }}"
+      run: dotnet test --logger trx --results-directory "TestResults-8.0.x"
