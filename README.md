@@ -1,6 +1,6 @@
 # BCV-WSCRAP-API
 
-A Little WebScrapper that gets values from BCV.ORG
+A Little WebScrapper that gets values from BCV.ORG a
 
 TODO LIST:
 - [X] Refactor code into smaller and readable pieces in controller
