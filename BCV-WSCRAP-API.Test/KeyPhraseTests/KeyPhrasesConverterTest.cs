@@ -44,7 +44,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         }
 
         [Fact]
-        public void KeyPhrasesConverter_EvaluatePhrase_ReturnStringIfPhraseExist()
+        public void TestEvaluatePhrase_CalledWIthNotEmptyPhrase_StringFound()
         {
             //Arrange
             string phrase = "TestPhrase";
