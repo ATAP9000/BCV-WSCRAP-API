@@ -17,7 +17,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         #region [EvaluatePhrase Method]
 
         [Fact]
-        public void KeyPhrasesConverter_EvaluatePhrase_ReturnStringIfPhraseIsEmpty()
+        public void TestEvaluatePhrase_CalledWIthEmtpyPhrase_StringIsEmpty()
         {
             //Arrange
             string phrase = string.Empty;
