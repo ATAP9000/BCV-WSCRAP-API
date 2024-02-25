@@ -9,8 +9,7 @@
 
         public string EvaluatePhrase(string phrase)
         {
-            string result = Phrases[phrase];
-            return result;
+            return string.IsNullOrEmpty(phrase) ? "" : Phrases[phrase];
         }
     }
 }
