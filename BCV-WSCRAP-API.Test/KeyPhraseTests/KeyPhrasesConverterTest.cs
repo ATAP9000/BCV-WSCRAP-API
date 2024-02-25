@@ -31,7 +31,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         }
 
         [Fact]
-        public void KeyPhrasesConverter_EvaluatePhrase_ReturnStringIfPhraseIsNull()
+        public void TestEvaluatePhrase_CalledWIthNullPhrase_StringIsEmpty()
         {
             //Arrange
             string phrase = null;
