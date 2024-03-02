@@ -11,24 +11,34 @@ namespace BCV_WSCRAP_API.Utilities
 
         private readonly CultureInfo _targetCulture;
 
+        private const string TABLE_HEADER = "//tr/th";
+
+        private const string TABLE_DATA = "//tr[td]";
+
+        private const string TD = "td";
+
+        private const string TARGET_CULTURE = "TargetCulture";
+
+
         public DataTableConverter(IConfiguration configuration)
         {
             _keyPhrasesConverter = new(configuration);
-            _targetCulture = new CultureInfo(configuration["TargetCulture"], false);
+            _targetCulture = new CultureInfo(configuration[TARGET_CULTURE], false);
         }
 
         public DataTable HtmlToDataTable(string htmlCode)
         {
+            DataTable dt = new();
+            if (string.IsNullOrEmpty(htmlCode))
+                return dt;
+
             HtmlDocument doc = new();
             doc.LoadHtml(htmlCode);
-            var headers = doc.DocumentNode.SelectNodes("//tr/th");
-            DataTable table = new();
-            foreach (HtmlNode header in headers)
-                table.Columns.Add(_keyPhrasesConverter.EvaluatePhrase(header.InnerText.Trim()));
+            if (doc.ParseErrors.Any())
+                return dt;
 
-            foreach (var row in doc.DocumentNode.SelectNodes("//tr[td]"))
-                table.Rows.Add(row.SelectNodes("td").Select(td => td.InnerText.Trim()).ToArray());
-            return table;
+            ParseHtmlTableToDataTable(ref dt, doc);
+            return dt;
         }
 
         public List<T> DataTableToList<T>(DataTable dt)
@@ -73,6 +83,16 @@ namespace BCV_WSCRAP_API.Utilities
                 }
             }
             return obj;
+        }
+
+        private void ParseHtmlTableToDataTable(ref DataTable dt, HtmlDocument htmlDocument)
+        {
+            var headers = htmlDocument.DocumentNode.SelectNodes(TABLE_HEADER);
+            foreach (HtmlNode header in headers)
+                dt.Columns.Add(_keyPhrasesConverter.EvaluatePhrase(header.InnerText.Trim()));
+
+            foreach (var row in htmlDocument.DocumentNode.SelectNodes(TABLE_DATA))
+                dt.Rows.Add(row.SelectNodes(TD).Select(td => td.InnerText.Trim()).ToArray());
         }
     }
 }

@@ -8,6 +8,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
     public class KeyPhrasesConverterTest
     {
         private readonly KeyPhrasesConverter _keyPhraseConverter;
+
         public KeyPhrasesConverterTest()
         {
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
@@ -17,7 +18,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         #region [EvaluatePhrase Method]
 
         [Fact]
-        public void TestEvaluatePhrase_CalledWIthEmtpyPhrase_StringIsEmpty()
+        public void EvaluatePhrase_EmptyPhrase_ReturnsEmptyString()
         {
             //Arrange
             string phrase = string.Empty;
@@ -31,7 +32,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         }
 
         [Fact]
-        public void TestEvaluatePhrase_CalledWIthNullPhrase_StringIsEmpty()
+        public void EvaluatePhrase_NullPhrase_ReturnsEmptyString()
         {
             //Arrange
             string phrase = null;
@@ -44,7 +45,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         }
 
         [Fact]
-        public void TestEvaluatePhrase_CalledWIthNotEmptyPhrase_StringFound()
+        public void EvaluatePhrase_NonEmptyPhrase_ReturnsString()
         {
             //Arrange
             string phrase = "TestPhrase";

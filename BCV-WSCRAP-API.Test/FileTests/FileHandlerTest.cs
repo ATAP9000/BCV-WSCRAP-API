@@ -10,20 +10,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         #region [GetFile Method]
 
         [Fact]
-        public void FileHandler_GetFile_ReturnString()
-        {
-            //Arrange
-            string filename = "Fake";
-
-            //Act
-            var result = FileHandler.GetFile(filename);
-
-            //Assert
-            result.Should().NotBeNull();
-        }
-
-        [Fact]
-        public void FileHandler_GetFile_ReturnEmptyStringIfFileNotFound()
+        public void GetFile_NonExistentFile_ReturnsEmptyString()
         {
             //Arrange
             string filename = "ThisFileDoesntExist.txt";
@@ -36,7 +23,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         }
 
         [Fact]
-        public void FileHandler_GetFile_ReturnStringIfFileExist()
+        public void GetFile_ExistentFile_ReturnsString()
         {
             //Arrange
             string filePath = Path.Combine("Resources", "ThisFileExist.txt");
@@ -49,7 +36,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         }
 
         [Fact]
-        public void FileHandler_GetFile_ReturnStringIfFileNameIsNull()
+        public void GetFile_NullString_ReturnsEmptyString()
         {
             //Arrange
             string filename = null;
@@ -66,7 +53,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         #region [SaveFile Method]
 
         [Fact]
-        public void FileHandler_SaveFile_ValidateFileExist()
+        public void SaveFile_ExistentFileWithName_ReturnsTrue()
         {
             //Arrange
             string filename = "TestFileToDelete";
@@ -82,7 +69,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         }
 
         [Fact]
-        public void FileHandler_SaveFile_ValidateFileDoesntExistIfStreamIsNull()
+        public void SaveFile_NonExistentFileWithName_ReturnsFalse()
         {
             //Arrange
             string filename = "TestFileNotExisting";
@@ -96,7 +83,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         }
 
         [Fact]
-        public void FileHandler_SaveFile_ValidateFileDoesntExistIfFilenameIsNull()
+        public void SaveFile_ExistentFileWithoutName_ReturnsFalse()
         {
             //Arrange
             string filename = null;

@@ -9,7 +9,7 @@
 
         public string EvaluatePhrase(string phrase)
         {
-            return string.IsNullOrEmpty(phrase) ? "" : Phrases[phrase];
+            return (string.IsNullOrEmpty(phrase) || !Phrases.ContainsKey(phrase)) ? "" : Phrases[phrase];
         }
     }
 }

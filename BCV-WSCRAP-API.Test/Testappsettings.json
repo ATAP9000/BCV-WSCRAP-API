@@ -1,5 +1,6 @@
 {
   "Phrases": {
     "TestPhrase": "Test"
-  }
+  },
+  "TargetCulture": "es-VE"
 }
