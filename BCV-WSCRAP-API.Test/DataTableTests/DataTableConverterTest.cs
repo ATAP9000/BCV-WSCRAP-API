@@ -1,6 +1,7 @@
 ﻿using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace BCV_WSCRAP_API.Test.DataTableTests
 {
@@ -10,9 +11,23 @@ namespace BCV_WSCRAP_API.Test.DataTableTests
 
         private readonly int ZERO = 0;
 
+        private readonly int EXPECTED_RESULT = 2;
+
+        private readonly string APPSETTINGS_FILE = "Testappsettings.json";
+
+        private readonly string RESOURCE_FOLDER = "Resources";
+
+        private readonly string BADFORMATED_PAGE = "BadFormatedPage.html";
+
+        private readonly string HTMLTABLE_PAGE = "HtmlTable.html";
+
+        private readonly string NO_HEADER_HTMLTABLE_PAGE = "HtmlTableNoData.html";
+
+        private readonly string NO_DATA_HTMLTABLE_PAGE = "HtmlTableNoHeader.html";
+
         public DataTableConverterTest()
         {
-            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
+            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(APPSETTINGS_FILE).Build();
             _dataTableConverter = new DataTableConverter(configuration);
         }
 
@@ -22,7 +37,7 @@ namespace BCV_WSCRAP_API.Test.DataTableTests
         public void HtmlToDataTable_NullString_ReturnsEmptyDataTable()
         {
             //Arrange
-            string htmlString = null;
+            string? htmlString = null;
 
             //Act
             var result = _dataTableConverter.HtmlToDataTable(htmlString);
@@ -48,7 +63,7 @@ namespace BCV_WSCRAP_API.Test.DataTableTests
         public void HtmlToDataTable_BadFormatedHtml_ReturnsEmptyDataTable()
         {
             //Arrange
-            string htmlString = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <title>Badly Formatted HTML</title>\r\n</head>\r\n<body>\r\n    <h1>Welcome to My Website</h1>\r\n    <p>This is a paragraph with <strong>unclosed tags and missing attributes.</p>\r\n    <ul>\r\n        <li>Item 1\r\n        <li>Item 2\r\n        <li>Item 3\r\n    </ul>\r\n    <img src=\"image.jpg\" alt=\"Image\" width=300 height=200>\r\n    <table>\r\n        <tr>\r\n            <td>Cell 1\r\n            <td>Cell 2\r\n        <tr>\r\n            <td>Cell 3\r\n            <td>Cell 4\r\n    </table>\r\n    <div>This <span>div</div> is not properly closed.\r\n</body>\r\n</html>";
+            string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, BADFORMATED_PAGE));
 
             //Act
             var result = _dataTableConverter.HtmlToDataTable(htmlString);
@@ -57,76 +72,104 @@ namespace BCV_WSCRAP_API.Test.DataTableTests
             result.Should().HaveRowCount(ZERO);
         }
 
-        //[Fact]
-        //public void HtmlToDataTable_HtmlTableWithoutHeader_ReturnsEmptyDataTable()
-        //{
-        //    //Arrange
-        //    string htmlString = string.Empty;
+        [Fact]
+        public void HtmlToDataTable_HtmlTableWithoutHeader_ReturnsEmptyDataTable()
+        {
+            //Arrange
+            string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, NO_HEADER_HTMLTABLE_PAGE));
 
-        //    //Act
-        //    var result = _dataTableConverter.HtmlToDataTable(htmlString);
+            //Act
+            var result = _dataTableConverter.HtmlToDataTable(htmlString);
 
-        //    //Assert
-        //    result.Should().HaveRowCount(ZERO);
-        //}
+            //Assert
+            result.Should().HaveRowCount(ZERO);
+        }
 
-        //[Fact]
-        //public void HtmlToDataTable_HtmlTableWithoutData_ReturnsEmptyDataTable()
-        //{
-        //    //Arrange
-        //    string htmlString = string.Empty;
+        [Fact]
+        public void HtmlToDataTable_HtmlTableWithoutData_ReturnsEmptyDataTable()
+        {
+            //Arrange
+            string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, NO_DATA_HTMLTABLE_PAGE));
 
-        //    //Act
-        //    var result = _dataTableConverter.HtmlToDataTable(htmlString);
+            //Act
+            var result = _dataTableConverter.HtmlToDataTable(htmlString);
 
-        //    //Assert
-        //    result.Should().HaveRowCount(ZERO);
-        //}
+            //Assert
+            result.Should().HaveRowCount(ZERO);
+        }
 
-        //[Fact]
-        //public void HtmlToDataTable_HtmlString_ReturnsDataTable()
-        //{
-        //    //Arrange
-        //    string filename = "Fake";
+        [Fact]
+        public void HtmlToDataTable_HtmlTable_ReturnsDataTable()
+        {
+            //Arrange
+            string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, HTMLTABLE_PAGE));
 
-        //    //Act
-        //    var result = _dataTableConverter.DataTableToList<object>(new System.Data.DataTable());
+            //Act
+            var result = _dataTableConverter.HtmlToDataTable(htmlString, false);
 
-        //    //Assert
-        //    result.Should().NotBeNull();
-        //}
-
-        //#endregion
-
-        //#region [DataTableToList Method]
-
-        //[Fact]
-        //public void DataTableToList_NullDataTable_ReturnsEmptyList()
-        //{
-        //    //Arrange
-        //    string filename = "Fake";
-
-        //    //Act
-        //    var result = _dataTableConverter.DataTableToList<object>(new System.Data.DataTable());
-
-        //    //Assert
-        //    result.Should().NotBeNull();
-        //}
-
-        //[Fact]
-        //public void DataTableToList_DataTable_ReturnsList()
-        //{
-        //    //Arrange
-        //    string filename = "Fake";
-
-        //    //Act
-        //    var result = _dataTableConverter.DataTableToList<object>(new System.Data.DataTable());
-
-        //    //Assert
-        //    result.Should().NotBeNull();
-        //}
+            //Assert
+            result.Should().HaveRowCount(EXPECTED_RESULT);
+        }
 
         #endregion
 
+        #region [DataTableToList Method]
+
+        [Fact]
+        public void DataTableToList_NullDataTable_ReturnsEmptyList()
+        {
+            //Arrange
+            DataTable? dt = null;
+
+            //Act
+            var result = _dataTableConverter.DataTableToList<object>(dt);
+
+            //Assert
+            result.Should().HaveCount(ZERO);
+        }
+
+        [Fact]
+        public void DataTableToList_EmptyDataTable_ReturnsList()
+        {
+            //Arrange
+            DataTable dt = new();
+
+            //Act
+            var result = _dataTableConverter.DataTableToList<object>(dt);
+
+            //Assert
+            result.Should().HaveCount(ZERO);
+        }
+
+        [Fact]
+        public void DataTableToList_DataTableWithData_ReturnsList()
+        {
+            //Arrange
+            DataTable dt = new();
+            dt.Columns.Add("NickName", typeof(string));
+            dt.Columns.Add("Age", typeof(string));
+            dt.Columns.Add("BirthDate", typeof(string));
+            dt.Rows.Add("Jose", "25,4", "01-03-1998");
+            dt.Rows.Add("Lucas", "50", "01/05/1922");
+
+            //Act
+            var result = _dataTableConverter.DataTableToList<Person>(dt);
+
+            //Assert
+            result.Should().HaveCount(EXPECTED_RESULT);
+        }
+
+        #endregion
+
+        #region [ UTILS ]
+
+        private string GetTestFile(string fileName)
+        {
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var path = Path.Combine(directory!, fileName);
+            return File.ReadAllText(path);
+        }
+
+        #endregion
     }
 }

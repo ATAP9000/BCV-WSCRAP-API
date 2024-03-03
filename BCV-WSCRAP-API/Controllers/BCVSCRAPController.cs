@@ -52,7 +52,7 @@ namespace BCV_WSCRAP_API.Controllers
         [HttpGet("Interventions")]
         public async Task<IActionResult> Interventions([FromQuery] InterventionQuery? query)
         {
-            List<Intervention> interventions;
+            List<Intervention>? interventions;
             IList<Intervention> queryResult = [];
             interventions = _memoryCache.Get<List<Intervention>>(_interventionsCacheName);
 
@@ -86,7 +86,7 @@ namespace BCV_WSCRAP_API.Controllers
         [HttpGet("BankRates")]
         public async Task<IActionResult> BankRates([FromQuery] BankRateQuery? query)
         {
-            List<BankRate> bankRates;
+            List<BankRate>? bankRates;
             IList<BankRate> queryResult = [];
             bankRates = _memoryCache.Get<List<BankRate>>(_bankRatesCacheName);
 

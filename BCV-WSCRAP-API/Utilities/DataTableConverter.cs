@@ -19,14 +19,16 @@ namespace BCV_WSCRAP_API.Utilities
 
         private const string TARGET_CULTURE = "TargetCulture";
 
+        private const string DEFAULT_CULTURE = "es-VE";
+
 
         public DataTableConverter(IConfiguration configuration)
         {
             _keyPhrasesConverter = new(configuration);
-            _targetCulture = new CultureInfo(configuration[TARGET_CULTURE], false);
+            _targetCulture = new CultureInfo(configuration[TARGET_CULTURE] ?? DEFAULT_CULTURE, false);
         }
 
-        public DataTable HtmlToDataTable(string htmlCode)
+        public DataTable HtmlToDataTable(string? htmlCode, bool convertHeader = true)
         {
             DataTable dt = new();
             if (string.IsNullOrEmpty(htmlCode))
@@ -37,18 +39,23 @@ namespace BCV_WSCRAP_API.Utilities
             if (doc.ParseErrors.Any())
                 return dt;
 
-            ParseHtmlTableToDataTable(ref dt, doc);
+            ParseHtmlTableToDataTable(ref dt, doc, convertHeader);
             return dt;
         }
 
-        public List<T> DataTableToList<T>(DataTable dt)
+        public List<T> DataTableToList<T>(DataTable? dt)
         {
             List<T> data = [];
+
+            if (dt == null || dt.Columns.Count <= 0 || dt.Rows.Count <= 0)
+                return data;
+
             foreach (DataRow row in dt.Rows)
             {
                 T item = GetItem<T>(row);
                 data.Add(item);
             }
+
             return data;
         }
 
@@ -70,10 +77,12 @@ namespace BCV_WSCRAP_API.Utilities
                         }
                         else if (pro.PropertyType == typeof(DateTime))
                         {
-                            if(dr[column.ColumnName].ToString().Contains('-'))
-                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString().Replace("-","/"), _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
+                            if(dr[column.ColumnName] == null)
+                                pro.SetValue(obj, DateTime.MinValue);
+                            else if (dr[column.ColumnName].ToString()!.Contains('-'))
+                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString()!.Replace("-","/"), _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
                             else
-                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString(), _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
+                                pro.SetValue(obj, DateTime.ParseExact(dr[column.ColumnName].ToString()!, _targetCulture.DateTimeFormat.ShortDatePattern, CultureInfo.InvariantCulture), null);
                         }
                         else
                             pro.SetValue(obj, Convert.ChangeType(dr[column.ColumnName], pro.PropertyType), null);
@@ -85,13 +94,17 @@ namespace BCV_WSCRAP_API.Utilities
             return obj;
         }
 
-        private void ParseHtmlTableToDataTable(ref DataTable dt, HtmlDocument htmlDocument)
+        private void ParseHtmlTableToDataTable(ref DataTable dt, HtmlDocument htmlDocument, bool convertHeader = true)
         {
             var headers = htmlDocument.DocumentNode.SelectNodes(TABLE_HEADER);
-            foreach (HtmlNode header in headers)
-                dt.Columns.Add(_keyPhrasesConverter.EvaluatePhrase(header.InnerText.Trim()));
+            var data = htmlDocument.DocumentNode.SelectNodes(TABLE_DATA);
+            if (headers == null || data == null)
+                return;
 
-            foreach (var row in htmlDocument.DocumentNode.SelectNodes(TABLE_DATA))
+            foreach (HtmlNode header in headers)
+                dt.Columns.Add(_keyPhrasesConverter.EvaluatePhrase(header.InnerText.Trim(), convertHeader));
+
+            foreach (var row in data)
                 dt.Rows.Add(row.SelectNodes(TD).Select(td => td.InnerText.Trim()).ToArray());
         }
     }
