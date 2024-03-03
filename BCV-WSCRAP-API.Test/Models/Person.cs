@@ -1,4 +1,4 @@
-﻿namespace BCV_WSCRAP_API.Test.DataTableTests
+﻿namespace BCV_WSCRAP_API.Test.Models
 {
     public class Person
     {

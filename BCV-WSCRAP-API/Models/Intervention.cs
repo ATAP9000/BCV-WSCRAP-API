@@ -3,7 +3,7 @@
     public class Intervention
     {
         public DateTime InterventionDate { get; set; }
-        public string InterventionNumber { get; set; }
+        public string? InterventionNumber { get; set; }
         public decimal ExchangeRate { get; set; }
     }
 }

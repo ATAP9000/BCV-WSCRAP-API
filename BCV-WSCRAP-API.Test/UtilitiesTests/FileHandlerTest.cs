@@ -2,7 +2,7 @@
 using FluentAssertions;
 using System.Text;
 
-namespace BCV_WSCRAP_API.Test.FileTests
+namespace BCV_WSCRAP_API.Test.UtilitiesTests
 {
 
     public class FileHandlerTest
@@ -39,7 +39,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
         public void GetFile_NullString_ReturnsEmptyString()
         {
             //Arrange
-            string filename = null;
+            string? filename = null;
 
             //Act
             var result = FileHandler.GetFile(filename);
@@ -62,7 +62,7 @@ namespace BCV_WSCRAP_API.Test.FileTests
                 File.Delete(filename);
 
             //Act
-            FileHandler.SaveFile(stream,filename);
+            FileHandler.SaveFile(stream, filename);
 
             //Assert
             File.Exists(filename).Should().BeTrue();
@@ -73,20 +73,20 @@ namespace BCV_WSCRAP_API.Test.FileTests
         {
             //Arrange
             string filename = "TestFileNotExisting";
-            Stream stream = null;
+            Stream? stream = null;
 
             //Act
-            FileHandler.SaveFile(stream,filename);
+            FileHandler.SaveFile(stream, filename);
 
             //Assert
-            File.Exists(filename).Should().BeFalse();    
+            File.Exists(filename).Should().BeFalse();
         }
 
         [Fact]
         public void SaveFile_ExistentFileWithoutName_ReturnsFalse()
         {
             //Arrange
-            string filename = null;
+            string? filename = null;
             Stream stream = new MemoryStream(Encoding.UTF8.GetBytes("Test Text"));
 
             //Act

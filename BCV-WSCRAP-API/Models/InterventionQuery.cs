@@ -11,18 +11,13 @@ namespace BCV_WSCRAP_API.Models
         [RegularExpression(@"\d{3}-\d{2}")]
         public string? InterventionCode { get; set; }
 
-        public bool IsEmpty() => InterventionCode == null && MinimumDate == null && MaximumDate == null;
+        public bool IsEmpty() => string.IsNullOrEmpty(InterventionCode) && MinimumDate == null && MaximumDate == null;
 
         public bool HasOnlyMinimumDate() => MinimumDate != null && MaximumDate == null;
 
-        public bool HasOnlyMaximumDate() => MinimumDate != null && MaximumDate == null;
+        public bool HasOnlyMaximumDate() => MinimumDate == null && MaximumDate != null;
 
         public bool HasNoDates() => MinimumDate != null && MaximumDate != null;
-
-        public static bool IsNullOrEmpty(InterventionQuery query)
-        {
-            return query == null || query.IsEmpty();
-        }
 
     }
 }

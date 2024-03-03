@@ -7,6 +7,7 @@
         public BankDictionary(IConfiguration configuration)
         {
             configuration.Bind(this);
+            BankCodes ??= [];
         }
     }
 }

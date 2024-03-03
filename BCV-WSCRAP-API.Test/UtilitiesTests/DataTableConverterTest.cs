@@ -1,29 +1,23 @@
-﻿using BCV_WSCRAP_API.Utilities;
+﻿using BCV_WSCRAP_API.Test.Models;
+using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
-namespace BCV_WSCRAP_API.Test.DataTableTests
+namespace BCV_WSCRAP_API.Test.UtilitiesTests
 {
     public class DataTableConverterTest
     {
         private readonly DataTableConverter _dataTableConverter;
 
-        private readonly int ZERO = 0;
-
-        private readonly int EXPECTED_RESULT = 2;
-
-        private readonly string APPSETTINGS_FILE = "Testappsettings.json";
-
-        private readonly string RESOURCE_FOLDER = "Resources";
-
-        private readonly string BADFORMATED_PAGE = "BadFormatedPage.html";
-
-        private readonly string HTMLTABLE_PAGE = "HtmlTable.html";
-
-        private readonly string NO_HEADER_HTMLTABLE_PAGE = "HtmlTableNoData.html";
-
-        private readonly string NO_DATA_HTMLTABLE_PAGE = "HtmlTableNoHeader.html";
+        private const int ZERO = 0;
+        private const int EXPECTED_RESULT = 2;
+        private const string APPSETTINGS_FILE = "Testappsettings.json";
+        private const string RESOURCE_FOLDER = "Resources";
+        private const string BADFORMATED_PAGE = "BadFormatedPage.html";
+        private const string HTMLTABLE_PAGE = "HtmlTable.html";
+        private const string NO_HEADER_HTMLTABLE_PAGE = "HtmlTableNoData.html";
+        private const string NO_DATA_HTMLTABLE_PAGE = "HtmlTableNoHeader.html";
 
         public DataTableConverterTest()
         {

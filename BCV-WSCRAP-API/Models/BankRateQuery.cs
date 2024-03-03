@@ -11,11 +11,11 @@ namespace BCV_WSCRAP_API.Models
         [RegularExpression(@"\d{4}")]
         public string? BankCode { get; set; }
 
-        public bool IsEmpty() => BankCode == null && MinimumDate == null && MaximumDate == null;
+        public bool IsEmpty() => string.IsNullOrEmpty(BankCode) && MinimumDate == null && MaximumDate == null;
 
         public bool HasOnlyMinimumDate() => MinimumDate != null && MaximumDate == null;
 
-        public bool HasOnlyMaximumDate() => MinimumDate != null && MaximumDate == null;
+        public bool HasOnlyMaximumDate() => MinimumDate == null && MaximumDate != null;
 
         public bool HasNoDates() => MinimumDate != null && MaximumDate != null;
     }

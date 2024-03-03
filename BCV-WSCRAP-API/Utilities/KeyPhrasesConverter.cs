@@ -9,7 +9,7 @@
             configuration.Bind(this);
         }
 
-        public string EvaluatePhrase(string phrase, bool convertHeader = true)
+        public string EvaluatePhrase(string? phrase, bool convertHeader = true)
         {
             if (string.IsNullOrEmpty(phrase) || Phrases == null)
                 return "";

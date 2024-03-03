@@ -1,9 +1,8 @@
 ﻿using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using Moq;
 
-namespace BCV_WSCRAP_API.Test.KeyPhraseTests
+namespace BCV_WSCRAP_API.Test.UtilitiesTests
 {
     public class KeyPhrasesConverterTest
     {
@@ -35,7 +34,7 @@ namespace BCV_WSCRAP_API.Test.KeyPhraseTests
         public void EvaluatePhrase_NullPhrase_ReturnsEmptyString()
         {
             //Arrange
-            string phrase = null;
+            string? phrase = null;
 
             //Act
             var result = _keyPhraseConverter.EvaluatePhrase(phrase);
