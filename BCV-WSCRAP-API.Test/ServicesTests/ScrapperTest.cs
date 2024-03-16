@@ -5,6 +5,7 @@ using PuppeteerSharp;
 
 namespace BCV_WSCRAP_API.Test.ServicesTests
 {
+    [Collection("Puppeteer collection")]
     public class ScrapperTest 
     {
         private const string TEST_SCRIPT = "() => { console.log('hi'); }";
@@ -17,14 +18,14 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
         public ScrapperTest()
         {
-            Console.WriteLine("Setting Up Browser...");
-            var browserList = new BrowserFetcher().GetInstalledBrowsers();
-            if (browserList == null || browserList.Count() < 1)
-            {
-                var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
-                task.Wait();
-            }
-            Console.WriteLine("Set Up Complete!");
+            //Console.WriteLine("Setting Up Browser...");
+            //var browserList = new BrowserFetcher().GetInstalledBrowsers();
+            //if (browserList == null || browserList.Count() < 1)
+            //{
+            //    var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
+            //    task.Wait();
+            //}
+            //Console.WriteLine("Set Up Complete!");
             configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
             connectionStrings = new ConnectionStrings(configuration.GetSection("ConnectionStrings"));
         }
