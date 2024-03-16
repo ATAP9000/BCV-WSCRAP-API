@@ -1,21 +1,32 @@
 ﻿using BCV_WSCRAP_API.Services;
 using BCV_WSCRAP_API.Test.Fixtures;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
+using PuppeteerSharp;
 
 namespace BCV_WSCRAP_API.Test.ServicesTests
 {
-    public class ScrapperTest : IClassFixture<ScrapperFixture>
+    public class ScrapperTest 
+        //: IClassFixture<ScrapperFixture>
     {
         private const string TEST_SCRIPT = "() => { console.log('hi'); }";
         private const string TEST_SCRIPT_WITH_RESULT = "() => { return 1; }";
         private const string TEST_URL = "https://www.google.com/";
         private const string TEST_WRONG_URL = "https://www.google.come/";
         private const string TEST_WRONG_SCRIPT = "console.log('hi')";
-        private readonly ScrapperFixture Fixture;
+        //private readonly ScrapperFixture Fixture;
+        public IConnectionStrings connectionStrings;
+        public IConfiguration configuration;
 
         public ScrapperTest(ScrapperFixture fixture)
         {
-            Fixture = fixture;
+            //Fixture = fixture;
+            Console.WriteLine("Setting Up Browser...");
+            var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
+            task.Wait();
+            Console.WriteLine("Set Up Complete!");
+            configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
+            connectionStrings = new ConnectionStrings(configuration.GetSection("ConnectionStrings"));
         }
 
 
