@@ -23,7 +23,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
         #region [Index]
 
         [Fact]
-        public async Task Index_GetAction_ReturnsMessage()
+        public void Index_GetAction_ReturnsMessage()
         {
             // Arrange
             var memoryCacheMock = new Mock<IMemoryCache>();
@@ -37,7 +37,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(string));
         }
 
@@ -63,7 +63,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(List<Currency>));
             result.Value.As<List<Currency>>().Should().NotBeNull();
             result.Value.As<List<Currency>>().Should().HaveCountGreaterThan(0);
@@ -91,7 +91,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(Intervention));
             result.Value.As<Intervention>().Should().NotBeNull();
         }
@@ -117,7 +117,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(List<Intervention>));
             result.Value.As<List<Intervention>>().Should().NotBeNull();
             result.Value.As<List<Intervention>>().Should().HaveCountGreaterThan(0);
@@ -142,7 +142,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(List<Intervention>));
             result.Value.As<List<Intervention>>().Should().NotBeNull();
             result.Value.As<List<Intervention>>().Should().HaveCountGreaterThan(0).And.HaveCountLessThan(2);
@@ -170,7 +170,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(List<BankRate>));
             result.Value.As<List<BankRate>>().Should().NotBeNull();
             result.Value.As<List<BankRate>>().Should().HaveCountGreaterThan(0);
@@ -196,7 +196,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             // Assert
             result.Should().NotBeNull();
             result.Should().BeOfType(typeof(OkObjectResult));
-            result.Value.Should().NotBeNull();
+            result!.Value.Should().NotBeNull();
             result.Value.Should().BeOfType(typeof(List<BankRate>));
             result.Value.As<List<BankRate>>().Should().NotBeNull();
             result.Value.As<List<BankRate>>().Should().HaveCountGreaterThan(0);

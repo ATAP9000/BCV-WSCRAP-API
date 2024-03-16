@@ -40,7 +40,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
             //Assert
             scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVBase);
-            scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
+            scrapper.ReceivedScript!.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
             //Assert
             scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVExchangeRateIntervention);
-            scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
+            scrapper.ReceivedScript!.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
         }
         #endregion
 
@@ -94,10 +94,6 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         [Fact]
         public async Task GetInterventions_ExistingUrlAndScript_ReturnsObject()
         {
-            try
-            {
-
-
             //Arrange
             FakeScrapper scrapper = new();
             BCVInvoker bcv = new(configuration, connectionStrings, scrapper);
@@ -108,13 +104,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
             //Assert
             scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVExchangeRateIntervention);
-            scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            scrapper.ReceivedScript!.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
         }
         #endregion
     }

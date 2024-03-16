@@ -43,14 +43,14 @@ namespace BCV_WSCRAP_API.Controllers
         [HttpGet("CurrentExchangeRate")]
         public async Task<IActionResult> CurrentExchangeRate()
         {
-            List<Currency> result = await _BCVInvoker.GetCurrentExchangeRate();
+            List<Currency>? result = await _BCVInvoker.GetCurrentExchangeRate();
             return Ok(result);
         }
 
         [HttpGet("RecentIntervention")]
         public async Task<IActionResult> RecentIntervention()
         {
-            Intervention result = await _BCVInvoker.GetRecentIntervention();
+            Intervention? result = await _BCVInvoker.GetRecentIntervention();
             return Ok(result);
         }
 
@@ -82,7 +82,7 @@ namespace BCV_WSCRAP_API.Controllers
 
         private async Task<List<BankRate>> HandleBankRatesCache()
         {
-            List<BankRate> bankRates = _memoryCache.Get<List<BankRate>>(_bankRatesCacheName);
+            List<BankRate>? bankRates = _memoryCache.Get<List<BankRate>>(_bankRatesCacheName);
 
             if (bankRates == null)
             {
