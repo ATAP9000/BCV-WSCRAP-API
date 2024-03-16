@@ -18,14 +18,6 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
         public ScrapperTest()
         {
-            //Console.WriteLine("Setting Up Browser...");
-            //var browserList = new BrowserFetcher().GetInstalledBrowsers();
-            //if (browserList == null || browserList.Count() < 1)
-            //{
-            //    var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
-            //    task.Wait();
-            //}
-            //Console.WriteLine("Set Up Complete!");
             configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
             connectionStrings = new ConnectionStrings(configuration.GetSection("ConnectionStrings"));
         }
@@ -44,7 +36,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
             var result = await scrapper.GetResultOfScript<object>(url, script);
 
             //Assert
-            result.Should().BeNull();
+            result.Should().NotBeNull();
         }
 
         [Fact]
