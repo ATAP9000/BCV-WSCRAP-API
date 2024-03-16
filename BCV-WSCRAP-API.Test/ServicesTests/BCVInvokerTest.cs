@@ -2,18 +2,28 @@
 using BCV_WSCRAP_API.Test.Fixtures;
 using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using Moq;
 using Moq.Protected;
+using PuppeteerSharp;
 
 namespace BCV_WSCRAP_API.Test.ServicesTests
 {
     public class BCVInvokerTest : IClassFixture<BCVInvokerFixture>
     {
-        private readonly BCVInvokerFixture Fixture;
+        //private readonly BCVInvokerFixture Fixture;
+        public IConnectionStrings connectionStrings;
+        public IConfiguration configuration;
 
-        public BCVInvokerTest(BCVInvokerFixture fixture)
+        public BCVInvokerTest()
         {
-            Fixture = fixture;
+            //Fixture = fixture;
+            Console.WriteLine("Setting Up Browser...");
+            var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
+            task.Wait();
+            Console.WriteLine("Set Up Complete!");
+            configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Testappsettings.json").Build();
+            connectionStrings = new ConnectionStrings(configuration.GetSection("ConnectionStrings"));
         }
 
         #region [GetCurrentExchangeRate Method]
@@ -22,14 +32,14 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         {
             //Arrange
             FakeScrapper scrapper = new();
-            BCVInvoker bcv = new(Fixture.configuration, Fixture.connectionStrings, scrapper);
+            BCVInvoker bcv = new(configuration, connectionStrings, scrapper);
             string EXPECTED_SCRIPT = "() => { return \"GetCurrentExchangeRate.js\" }";
 
             //Act
             await bcv.GetCurrentExchangeRate();
 
             //Assert
-            scrapper.ReceivedUrl.Should().Be(Fixture.connectionStrings.BCVBase);
+            scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVBase);
             scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
         }
         #endregion
@@ -40,14 +50,14 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         {
             //Arrange
             FakeScrapper scrapper = new();
-            BCVInvoker bcv = new(Fixture.configuration, Fixture.connectionStrings, scrapper);
+            BCVInvoker bcv = new(configuration, connectionStrings, scrapper);
             string EXPECTED_SCRIPT = "() => { return \"GetMostRecentIntervention.js\" }";
 
             //Act
             await bcv.GetRecentIntervention();
 
             //Assert
-            scrapper.ReceivedUrl.Should().Be(Fixture.connectionStrings.BCVExchangeRateIntervention);
+            scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVExchangeRateIntervention);
             scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
         }
         #endregion
@@ -70,13 +80,13 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
                            });
 
             CustomHttpClient httpClient = new(messageHandler.Object);
-            BCVInvoker bcv = new(Fixture.configuration, Fixture.connectionStrings, scrapper);
+            BCVInvoker bcv = new(configuration, connectionStrings, scrapper);
 
             //Act
             await bcv.GetBankRates(httpClient);
 
             //Assert
-            httpClient.LastIUrlCall.Should().Be(Fixture.connectionStrings.BCVBankingInformationRates);
+            httpClient.LastIUrlCall.Should().Be(connectionStrings.BCVBankingInformationRates);
         }
         #endregion
 
@@ -90,14 +100,14 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
 
             //Arrange
             FakeScrapper scrapper = new();
-            BCVInvoker bcv = new(Fixture.configuration, Fixture.connectionStrings, scrapper);
+            BCVInvoker bcv = new(configuration, connectionStrings, scrapper);
             string EXPECTED_SCRIPT = "() => { return \"GetInterventions.js\" }";
 
             //Act
             await bcv.GetInterventions();
 
             //Assert
-            scrapper.ReceivedUrl.Should().Be(Fixture.connectionStrings.BCVExchangeRateIntervention);
+            scrapper.ReceivedUrl.Should().Be(connectionStrings.BCVExchangeRateIntervention);
             scrapper.ReceivedScript.Replace(Environment.NewLine, string.Empty).Should().Be(EXPECTED_SCRIPT);
             }
             catch (Exception ex)
