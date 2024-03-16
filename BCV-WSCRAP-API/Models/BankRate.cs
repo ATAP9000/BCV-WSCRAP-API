@@ -16,8 +16,8 @@ namespace BCV_WSCRAP_API.Models
 
         public void AssignBankCode(BankDictionary? bankDictionary)
         {
-            if (bankDictionary != null && bankDictionary.BankCodes != null && bankDictionary.BankCodes.ContainsKey(Bank))
-                BankCode = bankDictionary.BankCodes[Bank];
+            if (bankDictionary != null && bankDictionary.BankCodes != null && bankDictionary.BankCodes.ContainsKey(Bank!))
+                BankCode = bankDictionary.BankCodes[Bank!];
         }
     }
 }

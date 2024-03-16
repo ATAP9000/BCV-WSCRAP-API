@@ -1,5 +1,4 @@
 ﻿using BCV_WSCRAP_API.Services;
-using BCV_WSCRAP_API.Test.Fixtures;
 using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
@@ -9,15 +8,13 @@ using PuppeteerSharp;
 
 namespace BCV_WSCRAP_API.Test.ServicesTests
 {
-    public class BCVInvokerTest : IClassFixture<BCVInvokerFixture>
+    public class BCVInvokerTest
     {
-        //private readonly BCVInvokerFixture Fixture;
         public IConnectionStrings connectionStrings;
         public IConfiguration configuration;
 
         public BCVInvokerTest()
         {
-            //Fixture = fixture;
             Console.WriteLine("Setting Up Browser...");
             var task = Task.Run(async () => await new BrowserFetcher().DownloadAsync());
             task.Wait();
