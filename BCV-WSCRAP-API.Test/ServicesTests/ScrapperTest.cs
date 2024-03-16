@@ -18,7 +18,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         public IConnectionStrings connectionStrings;
         public IConfiguration configuration;
 
-        public ScrapperTest(ScrapperFixture fixture)
+        public ScrapperTest()
         {
             //Fixture = fixture;
             Console.WriteLine("Setting Up Browser...");
