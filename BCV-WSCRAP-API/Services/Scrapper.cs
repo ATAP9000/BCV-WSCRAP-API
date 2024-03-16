@@ -30,14 +30,7 @@ namespace BCV_WSCRAP_API.Services
             }
             catch (Exception ex)
             {
-                if (ex.GetType() == typeof(NavigationException))
-                {
-
-                }
-                if (ex.GetType() == typeof(EvaluationFailedException))
-                {
-
-                }
+                Console.WriteLine(ex.Message);
                 return default;
             }
         }
