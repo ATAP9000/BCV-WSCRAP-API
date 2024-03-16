@@ -2,5 +2,25 @@
   "Phrases": {
     "TestPhrase": "Test"
   },
-  "TargetCulture": "es-VE"
+  "ConnectionStrings": {
+    "BCVBase": "BCVBase.html",
+    "BCVBankingInformationRates": "http://google.com",
+    "BCVExchangeRateIntervention": "BCVExchangeRateIntervention.html"
+  },
+  "Scripts": {
+    "GetCurrentExchangeRate": "GetCurrentExchangeRate.js",
+    "GetMostRecentIntervention": "GetMostRecentIntervention.js",
+    "GetInterventions": "GetInterventions.js"
+  },
+  "CachingSettings": {
+    "interventionsKey": "interventions",
+    "bankratesKey": "bankrates",
+    "TimeKept": 6
+  },
+  "BankCodes": {
+    "Banco Central de Venezuela": "1111"
+  },
+  "InterventionFile": "IntervencionesBancos.html",
+  "TargetCulture": "es-VE",
+  "Message": "Simple BCV Scrapper"
 }

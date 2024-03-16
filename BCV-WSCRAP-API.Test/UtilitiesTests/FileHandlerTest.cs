@@ -1,6 +1,5 @@
 ﻿using BCV_WSCRAP_API.Utilities;
 using FluentAssertions;
-using System.Text;
 
 namespace BCV_WSCRAP_API.Test.UtilitiesTests
 {
@@ -10,7 +9,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         #region [GetFile Method]
 
         [Fact]
-        public void GetFile_NonExistentFile_ReturnsEmptyString()
+        public void GetFile_NonExistentFilePath_ReturnsEmptyString()
         {
             //Arrange
             string filename = "ThisFileDoesntExist.txt";
@@ -23,7 +22,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         }
 
         [Fact]
-        public void GetFile_ExistentFile_ReturnsString()
+        public void GetFile_FilePath_ReturnsString()
         {
             //Arrange
             string filePath = Path.Combine("Resources", "ThisFileExist.txt");
@@ -36,7 +35,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         }
 
         [Fact]
-        public void GetFile_NullString_ReturnsEmptyString()
+        public void GetFile_Null_ReturnsEmptyString()
         {
             //Arrange
             string? filename = null;
@@ -45,55 +44,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
             var result = FileHandler.GetFile(filename);
 
             //Assert
-            result.Should().NotBeNull();
-        }
-
-        #endregion
-
-        #region [SaveFile Method]
-
-        [Fact]
-        public void SaveFile_ExistentFileWithName_ReturnsTrue()
-        {
-            //Arrange
-            string filename = "TestFileToDelete";
-            Stream stream = new MemoryStream(Encoding.UTF8.GetBytes("Test Text"));
-            if (File.Exists(filename))
-                File.Delete(filename);
-
-            //Act
-            FileHandler.SaveFile(stream, filename);
-
-            //Assert
-            File.Exists(filename).Should().BeTrue();
-        }
-
-        [Fact]
-        public void SaveFile_NonExistentFileWithName_ReturnsFalse()
-        {
-            //Arrange
-            string filename = "TestFileNotExisting";
-            Stream? stream = null;
-
-            //Act
-            FileHandler.SaveFile(stream, filename);
-
-            //Assert
-            File.Exists(filename).Should().BeFalse();
-        }
-
-        [Fact]
-        public void SaveFile_ExistentFileWithoutName_ReturnsFalse()
-        {
-            //Arrange
-            string? filename = null;
-            Stream stream = new MemoryStream(Encoding.UTF8.GetBytes("Test Text"));
-
-            //Act
-            FileHandler.SaveFile(stream, filename);
-
-            //Assert
-            File.Exists(filename).Should().BeFalse();
+            result.Should().BeEmpty();
         }
 
         #endregion

@@ -12,15 +12,13 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
 
         private const int ZERO = 0;
         private const int EXPECTED_RESULT = 2;
-        private const string APPSETTINGS_FILE = "Testappsettings.json";
         private const string RESOURCE_FOLDER = "Resources";
         private const string BADFORMATED_PAGE = "BadFormatedPage.html";
         private const string HTMLTABLE_PAGE = "HtmlTable.html";
-        private const string NO_HEADER_HTMLTABLE_PAGE = "HtmlTableNoData.html";
-        private const string NO_DATA_HTMLTABLE_PAGE = "HtmlTableNoHeader.html";
 
         public DataTableConverterTest()
         {
+            string APPSETTINGS_FILE = "Testappsettings.json";
             var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(APPSETTINGS_FILE).Build();
             _dataTableConverter = new DataTableConverter(configuration);
         }
@@ -28,7 +26,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         #region [HtmlToDataTable Method]
 
         [Fact]
-        public void HtmlToDataTable_NullString_ReturnsEmptyDataTable()
+        public void HtmlToDataTable_Null_ReturnsEmptyDataTable()
         {
             //Arrange
             string? htmlString = null;
@@ -70,6 +68,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         public void HtmlToDataTable_HtmlTableWithoutHeader_ReturnsEmptyDataTable()
         {
             //Arrange
+            string NO_HEADER_HTMLTABLE_PAGE = "HtmlTableNoData.html";
             string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, NO_HEADER_HTMLTABLE_PAGE));
 
             //Act
@@ -83,6 +82,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         public void HtmlToDataTable_HtmlTableWithoutData_ReturnsEmptyDataTable()
         {
             //Arrange
+            string NO_DATA_HTMLTABLE_PAGE = "HtmlTableNoHeader.html";
             string htmlString = GetTestFile(Path.Combine(RESOURCE_FOLDER, NO_DATA_HTMLTABLE_PAGE));
 
             //Act
@@ -110,7 +110,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         #region [DataTableToList Method]
 
         [Fact]
-        public void DataTableToList_NullDataTable_ReturnsEmptyList()
+        public void DataTableToList_Null_ReturnsEmptyList()
         {
             //Arrange
             DataTable? dt = null;
@@ -136,7 +136,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         }
 
         [Fact]
-        public void DataTableToList_DataTableWithData_ReturnsList()
+        public void DataTableToList_DataTable_ReturnsList()
         {
             //Arrange
             DataTable dt = new();
@@ -157,7 +157,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
 
         #region [ UTILS ]
 
-        private string GetTestFile(string fileName)
+        private static string GetTestFile(string fileName)
         {
             var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             var path = Path.Combine(directory!, fileName);

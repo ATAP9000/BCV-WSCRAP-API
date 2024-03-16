@@ -1,5 +1,6 @@
 ﻿using BCV_WSCRAP_API.Models;
 using BCV_WSCRAP_API.Services;
+using BCV_WSCRAP_API.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data;
@@ -12,57 +13,92 @@ namespace BCV_WSCRAP_API.Controllers
     {
         private readonly IMemoryCache _memoryCache;
         private readonly IConfiguration _configuration;
-        private readonly Scrapper _scrapper;
+        private readonly IBCVInvoker _BCVInvoker;
         private readonly BankDictionary _bankDictionary;
         private readonly int _CacheHours;
         private readonly string _interventionsCacheName;
         private readonly string _bankRatesCacheName;
+        private readonly string _message;
 
-        public BCVSCRAPController(IMemoryCache memoryCache, Scrapper scrapper, IConfiguration configuration, BankDictionary bankDictionary)
+
+        public BCVSCRAPController(IMemoryCache memoryCache, IBCVInvoker bCVInvoker, IConfiguration configuration, BankDictionary bankDictionary)
         {
             _memoryCache = memoryCache;
-            _scrapper = scrapper;
+            _BCVInvoker = bCVInvoker;
             _configuration = configuration;
             _bankDictionary = bankDictionary;
-            _interventionsCacheName = configuration.GetSection("Caches")["interventions"]!;
-            _bankRatesCacheName = configuration.GetSection("Caches")["bankrates"]!;
-            _ = int.TryParse(configuration["CacheHours"], out _CacheHours);
+            IConfigurationSection cache = configuration.GetSection("CachingSettings");
+            _interventionsCacheName = cache["interventionsKey"]!;
+            _bankRatesCacheName = cache["bankratesKey"]!;
+            _ = int.TryParse(cache["TimeKept"], out _CacheHours);
+            _message = configuration["Message"]!;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok();
+            return Ok(_message);
         }
 
         [HttpGet("CurrentExchangeRate")]
         public async Task<IActionResult> CurrentExchangeRate()
         {
-            List<Currency> result = await _scrapper.GetCurrentExchangeRate();
+            List<Currency> result = await _BCVInvoker.GetCurrentExchangeRate();
             return Ok(result);
         }
 
         [HttpGet("RecentIntervention")]
         public async Task<IActionResult> RecentIntervention()
         {
-            Intervention result = await _scrapper.GetRecentIntervention();
+            Intervention result = await _BCVInvoker.GetRecentIntervention();
             return Ok(result);
         }
 
         [HttpGet("Interventions")]
         public async Task<IActionResult> Interventions([FromQuery] InterventionQuery? query)
         {
-            List<Intervention>? interventions;
-            IList<Intervention> queryResult = [];
-            interventions = _memoryCache.Get<List<Intervention>>(_interventionsCacheName);
+            List<Intervention>? interventions = await HandleInterventionsCache();
+            return Ok(QueryInterventions(interventions, query));
+        }
+
+        [HttpGet("BankRates")]
+        public async Task<IActionResult> BankRates([FromQuery] BankRateQuery? query)
+        {
+            List<BankRate>? bankRates = await HandleBankRatesCache();
+            return Ok(QueryBankRates(bankRates,query));
+        }
+
+        private async Task<List<Intervention>> HandleInterventionsCache()
+        {
+            List<Intervention>? interventions = _memoryCache.Get<List<Intervention>>(_interventionsCacheName);
 
             if (interventions == null)
             {
-                interventions = await _scrapper.GetInterventions();
+                interventions = await _BCVInvoker.GetInterventions();
                 _memoryCache.Set(_interventionsCacheName, interventions, TimeSpan.FromHours(_CacheHours));
             }
+            return interventions!;
+        }
 
-            if (query?.IsEmpty() ?? true)
+        private async Task<List<BankRate>> HandleBankRatesCache()
+        {
+            List<BankRate> bankRates = _memoryCache.Get<List<BankRate>>(_bankRatesCacheName);
+
+            if (bankRates == null)
+            {
+                bankRates = await _BCVInvoker.GetBankRates(new CustomHttpClient());
+                _memoryCache.Set(_bankRatesCacheName, bankRates, TimeSpan.FromHours(_CacheHours));
+            }
+
+            bankRates.ForEach(x => { x.AssignBankCode(_bankDictionary); });
+            return bankRates!;
+        }
+
+        private List<Intervention> QueryInterventions(List<Intervention> interventions, InterventionQuery? query)
+        {
+            IList<Intervention> queryResult = [];
+
+            if (query == null || query.IsEmpty())
                 queryResult = interventions;
             else
             {
@@ -80,24 +116,12 @@ namespace BCV_WSCRAP_API.Controllers
                     queryResult = interventions.Where(x => x.InterventionDate.Date >= query.MinimumDate && x.InterventionDate.Date <= query.MaximumDate).Union(queryResult).ToList();
             }
 
-            return Ok(queryResult.OrderByDescending(x => x.InterventionDate));
+            return queryResult.OrderByDescending(x => x.InterventionDate).ToList();
         }
 
-        [HttpGet("BankRates")]
-        public async Task<IActionResult> BankRates([FromQuery] BankRateQuery? query)
+        private List<BankRate> QueryBankRates(List<BankRate> bankRates, BankRateQuery? query)
         {
-            List<BankRate>? bankRates;
             IList<BankRate> queryResult = [];
-            bankRates = _memoryCache.Get<List<BankRate>>(_bankRatesCacheName);
-
-            if (bankRates == null)
-            {
-                bankRates = await _scrapper.GetBankRates();
-                _memoryCache.Set(_bankRatesCacheName, bankRates, TimeSpan.FromHours(_CacheHours));
-            }
-
-            bankRates.ForEach(x => { x.AssignBankCode(_bankDictionary); });
-
             if (query == null || query.IsEmpty())
                 queryResult = bankRates;
             else
@@ -116,7 +140,7 @@ namespace BCV_WSCRAP_API.Controllers
                     queryResult = bankRates.Where(x => x.IndicatorDate.Date >= query.MinimumDate && x.IndicatorDate.Date <= query.MaximumDate).Union(queryResult).ToList();
             }
 
-            return Ok(queryResult.OrderByDescending(x => x.IndicatorDate));
+            return queryResult.OrderByDescending(x => x.IndicatorDate).ToList();
         }
 
     }

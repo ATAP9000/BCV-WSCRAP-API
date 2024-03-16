@@ -17,7 +17,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         #region [EvaluatePhrase Method]
 
         [Fact]
-        public void EvaluatePhrase_EmptyPhrase_ReturnsEmptyString()
+        public void EvaluatePhrase_EmptyString_ReturnsEmptyString()
         {
             //Arrange
             string phrase = string.Empty;
@@ -27,11 +27,10 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
 
             //Assert
             result.Should().BeEmpty();
-
         }
 
         [Fact]
-        public void EvaluatePhrase_NullPhrase_ReturnsEmptyString()
+        public void EvaluatePhrase_Null_ReturnsEmptyString()
         {
             //Arrange
             string? phrase = null;
@@ -44,7 +43,7 @@ namespace BCV_WSCRAP_API.Test.UtilitiesTests
         }
 
         [Fact]
-        public void EvaluatePhrase_NonEmptyPhrase_ReturnsString()
+        public void EvaluatePhrase_Phrase_ReturnsString()
         {
             //Arrange
             string phrase = "TestPhrase";

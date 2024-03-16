@@ -11,9 +11,9 @@
 
         public string EvaluatePhrase(string? phrase, bool convertHeader = true)
         {
-            if (string.IsNullOrEmpty(phrase) || Phrases == null)
+            if (string.IsNullOrEmpty(phrase) || Phrases == null )
                 return "";
-            else if (!Phrases.ContainsKey(phrase) && convertHeader)
+            else if (Phrases.ContainsKey(phrase) && convertHeader)
                 return Phrases[phrase];
             else
                 return phrase;

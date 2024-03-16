@@ -7,6 +7,5 @@
         public decimal Age { get; set; }
 
         public DateTime BirthDate { get; set; }
-
     }
 }
