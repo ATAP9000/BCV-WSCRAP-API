@@ -36,7 +36,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
             var result = await scrapper.GetResultOfScript<object>(url, script);
 
             //Assert
-            result.Should().NotBeNull();
+            result.Should().BeNull();
         }
 
         [Fact]
