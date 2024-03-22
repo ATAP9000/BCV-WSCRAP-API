@@ -20,7 +20,6 @@ namespace BCV_WSCRAP_API.Controllers
         private readonly string _bankRatesCacheName;
         private readonly string _message;
 
-
         public BCVSCRAPController(IMemoryCache memoryCache, IBCVInvoker bCVInvoker, IConfiguration configuration, BankDictionary bankDictionary)
         {
             _memoryCache = memoryCache;
