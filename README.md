@@ -57,7 +57,7 @@ The following endpoints are available:
 
 The project also contains a swagger page that can be accessed at `https://localhost:7010/swagger/index.html`
 
-Examples of usage can be seen at the .http file.
+Examples of usage can be seen at the .http file. (Only for VS2022)
 
 ### License
 
@@ -118,7 +118,7 @@ Los siguientes son los endpoints disponibles:
 
 El proyecto también contiene una página swagger a la que se puede acceder por la siguiente ruta `https://localhost:7010/swagger/index.html`.
 
-Se pueden ver ejemplos de uso en el archivo .http.
+Se pueden ver ejemplos de uso en el archivo .http. (Solo para VS2022)
 
 ### Licencia
 
