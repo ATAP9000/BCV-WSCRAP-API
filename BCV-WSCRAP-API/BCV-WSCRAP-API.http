@@ -1,6 +1,101 @@
 @BCV_WSCRAP_API_HostAddress = http://localhost:5211
+@Past_Month = {{$datetime "yyyy-MM-dd" -1 M}}
+@Today = {{$datetime "yyyy-MM-dd"}}
+@InterventionCode = 022-24
+@BankCode = 0191
 
 GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/CurrentExchangeRate
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/RecentIntervention/
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions/
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MinimumDate={{Past_Month}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MaximumDate={{Today}}
+Accept: application/json
+
+###
+
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?InterventionCode={{InterventionCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MinimumDate={{Past_Month}}&MaximumDate={{Today}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MinimumDate={{Past_Month}}&InterventionCode={{InterventionCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MaximumDate={{Today}}&InterventionCode={{InterventionCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/Interventions?MinimumDate={{Past_Month}}&MaximumDate={{Today}}&InterventionCode={{InterventionCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates/
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MinimumDate={{Past_Month}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MaximumDate={{Today}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?BankCode={{BankCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MinimumDate={{Past_Month}}&MaximumDate={{Today}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MinimumDate={{Past_Month}}&BankCode={{BankCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MaximumDate={{Today}}&BankCode={{BankCode}}
+Accept: application/json
+
+###
+
+GET {{BCV_WSCRAP_API_HostAddress}}/BCVSCRAP/BankRates?MinimumDate={{Past_Month}}&MaximumDate={{Today}}&BankCode={{BankCode}}
 Accept: application/json
 
 ###
