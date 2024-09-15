@@ -35,15 +35,45 @@ These instructions will get you a copy of the project up and running on your loc
    dotnet restore
    ```
 
-### Usage
+4. **Start the API locally**
 
-Start the API locally by running:
-
-```bash
-dotnet run
-```
+   ```bash
+   dotnet run
+   ```
 
 Your API will be available at `http://localhost:5211` by default.
+
+### Usage with Docker
+
+These instructions will allow you to have an application deployed for use with docker.
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/ATAP9000/BCV-WSCRAP-API.git
+   ```
+
+2. **Navigate to the project directory**
+
+   ```bash
+   cd BCV-WSCRAP-API
+   ```
+
+3. **Install necessary packages**
+
+   Make sure all the required NuGet packages are restored:
+
+   ```bash
+   docker build -t < IMAGE_NAME > -f Dockerfile .
+   ```
+
+4. **Start using the API**
+
+   ```bash
+   docker run -p 5000:5000 -p 5001:5001 < IMAGE_NAME >
+   ```
+
+The API will be available at the following path `http://localhost:5001` by default.
 
 ### API Endpoints
 
@@ -72,7 +102,7 @@ Un pequeño RestAPI WebScrapper hecho en .NET 8 que obtiene multiple informacion
 Antes de empezar, hay que asegurarse de tener instalado lo siguiente:
 * .NET 8.0 SDK
 
-### Instalación
+### Instalación Regular
 
 Estas instrucciones permitirán tener una copia del proyecto funcionando en la máquina local para fines de desarrollo y pruebas. El despliegue dependera de usted.
 
@@ -96,15 +126,45 @@ Estas instrucciones permitirán tener una copia del proyecto funcionando en la m
    dotnet restore
    ```
 
-### Uso
+4. **Empezar a usar el API localmente**
 
-Para empezar a usar el API localmente:
-
-```bash
-dotnet run
-```
+   ```bash
+   dotnet run
+   ```
 
 El API estara disponible en la siguiente ruta `http://localhost:5211` por defecto.
+
+### Uso con Docker
+
+Estas instrucciones permitirán tener una aplicacion desplegada para su uso con docker.
+
+1. **Clonar el Repositorio**
+
+   ```bash
+   git clone https://github.com/ATAP9000/BCV-WSCRAP-API.git
+   ```
+
+2. **Navegar al directorio del proyecto**
+
+   ```bash
+   cd BCV-WSCRAP-API
+   ```
+
+3. **Ejecutar el comando Build de Docker**
+
+   Asegúrese de que todos los paquetes NuGet necesarios estén restaurados:
+
+   ```bash
+   docker build -t < IMAGE_NAME > -f Dockerfile .
+   ```
+
+4. **Empezar a usar el API**
+
+   ```bash
+   docker run -p 5000:5000 -p 5001:5001 < IMAGE_NAME >
+   ```
+
+El API estara disponible en la siguiente ruta `http://localhost:5001` por defecto.
 
 ### API Endpoints
 

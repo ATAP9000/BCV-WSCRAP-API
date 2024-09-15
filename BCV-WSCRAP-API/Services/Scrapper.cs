@@ -11,6 +11,8 @@ namespace BCV_WSCRAP_API.Services
             _launchOptions = new()
             {
                 Headless = true,
+                Args = ["--no-sandbox",
+                    "--disable-setuid-sandbox"]
             };
         }
 
