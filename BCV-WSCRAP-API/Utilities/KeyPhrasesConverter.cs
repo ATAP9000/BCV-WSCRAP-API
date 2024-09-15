@@ -1,5 +1,6 @@
 ﻿namespace BCV_WSCRAP_API.Utilities
 {
+    /// <summary>Uses the dictionary of phrases provided in the Appsettings to be used in conversion</summary>
     public class KeyPhrasesConverter
     {
         public Dictionary<string, string>? Phrases { get; init; }

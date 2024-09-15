@@ -3,7 +3,7 @@
         constructor(name, code, currentRate) {
             this.Name = name;
             this.Code = code;
-            this.CurrentRate = currentRate;
+            this.ExchangeRate = currentRate;
         }
     };
     var initialList = document.getElementById('titulo1').parentNode.children;

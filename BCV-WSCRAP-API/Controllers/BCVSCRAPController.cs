@@ -12,7 +12,6 @@ namespace BCV_WSCRAP_API.Controllers
     public class BCVSCRAPController : ControllerBase
     {
         private readonly IMemoryCache _memoryCache;
-        private readonly IConfiguration _configuration;
         private readonly IBCVInvoker _BCVInvoker;
         private readonly BankDictionary _bankDictionary;
         private readonly int _CacheHours;
@@ -24,7 +23,6 @@ namespace BCV_WSCRAP_API.Controllers
         {
             _memoryCache = memoryCache;
             _BCVInvoker = bCVInvoker;
-            _configuration = configuration;
             _bankDictionary = bankDictionary;
             IConfigurationSection cache = configuration.GetSection("CachingSettings");
             _interventionsCacheName = cache["interventionsKey"]!;
@@ -33,12 +31,15 @@ namespace BCV_WSCRAP_API.Controllers
             _message = configuration["Message"]!;
         }
 
+        #region [ Api Calls ]
+        /// <summary>Gets Response of API</summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Index()
-        {
-            return Ok(_message);
-        }
+            => Ok(_message);
 
+        /// <summary>Retrieves current exchange rate of the available currencies</summary>
+        /// <returns>List of Currencies</returns>
         [HttpGet("CurrentExchangeRate")]
         public async Task<IActionResult> CurrentExchangeRate()
         {
@@ -46,6 +47,8 @@ namespace BCV_WSCRAP_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>Retrieves the most recent intervention</summary>
+        /// <returns>An Intervention</returns>
         [HttpGet("RecentIntervention")]
         public async Task<IActionResult> RecentIntervention()
         {
@@ -53,6 +56,9 @@ namespace BCV_WSCRAP_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>Retrieves list of interventions between a date range</summary>
+        /// <param name="query">Query Params</param>
+        /// <returns>List Interventions</returns>
         [HttpGet("Interventions")]
         public async Task<IActionResult> Interventions([FromQuery] InterventionQuery? query)
         {
@@ -60,13 +66,18 @@ namespace BCV_WSCRAP_API.Controllers
             return Ok(QueryInterventions(interventions, query));
         }
 
+        /// <summary>Retrieves list of informational rates of the banking system between a date range.</summary>
+        /// <param name="query">Query Params</param>
+        /// <returns>List of Bank rates</returns>
         [HttpGet("BankRates")]
         public async Task<IActionResult> BankRates([FromQuery] BankRateQuery? query)
         {
             List<BankRate>? bankRates = await HandleBankRatesCache();
             return Ok(QueryBankRates(bankRates,query));
         }
+        #endregion
 
+        #region [ Cache Handling ]
         private async Task<List<Intervention>> HandleInterventionsCache()
         {
             List<Intervention>? interventions = _memoryCache.Get<List<Intervention>>(_interventionsCacheName);
@@ -92,8 +103,10 @@ namespace BCV_WSCRAP_API.Controllers
             bankRates.ForEach(x => { x.AssignBankCode(_bankDictionary); });
             return bankRates!;
         }
+        #endregion
 
-        private List<Intervention> QueryInterventions(List<Intervention> interventions, InterventionQuery? query)
+        #region [ Private Methods ]
+        private static List<Intervention> QueryInterventions(List<Intervention> interventions, InterventionQuery? query)
         {
             IList<Intervention> queryResult = [];
 
@@ -103,7 +116,7 @@ namespace BCV_WSCRAP_API.Controllers
             {
                 if (query.InterventionCode != null)
                 {
-                    if (interventions.Any(x => x.InterventionNumber == query.InterventionCode))
+                    if (interventions.Exists(x => x.InterventionNumber == query.InterventionCode))
                         queryResult = interventions.Where(x => x.InterventionNumber == query.InterventionCode).Union(queryResult).ToList();
                 }
 
@@ -118,7 +131,7 @@ namespace BCV_WSCRAP_API.Controllers
             return queryResult.OrderByDescending(x => x.InterventionDate).ToList();
         }
 
-        private List<BankRate> QueryBankRates(List<BankRate> bankRates, BankRateQuery? query)
+        private static List<BankRate> QueryBankRates(List<BankRate> bankRates, BankRateQuery? query)
         {
             IList<BankRate> queryResult = [];
             if (query == null || query.IsEmpty())
@@ -127,7 +140,7 @@ namespace BCV_WSCRAP_API.Controllers
             {
                 if (query.BankCode != null)
                 {
-                    if (bankRates.Any(x => x.BankCode == query.BankCode))
+                    if (bankRates.Exists(x => x.BankCode == query.BankCode))
                         queryResult = bankRates.Where(x => x.BankCode == query.BankCode).Union(queryResult).ToList();
                 }
 
@@ -141,6 +154,6 @@ namespace BCV_WSCRAP_API.Controllers
 
             return queryResult.OrderByDescending(x => x.IndicatorDate).ToList();
         }
-
+        #endregion
     }
 }

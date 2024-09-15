@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace BCV_WSCRAP_API.Utilities
 {
+    /// <summary>Converts values of html table into List or Datatables</summary>
     public class DataTableConverter
     {
         private readonly KeyPhrasesConverter _keyPhrasesConverter;
@@ -28,6 +29,10 @@ namespace BCV_WSCRAP_API.Utilities
             _targetCulture = new CultureInfo(configuration[TARGET_CULTURE] ?? DEFAULT_CULTURE, false);
         }
 
+        /// <summary>Converts Html into Datatable</summary>
+        /// <param name="htmlCode">HTML string</param>
+        /// <param name="convertHeader">Indicates if the header of the html table will be used</param>
+        /// <returns>HTML table converted into Datatable</returns>
         public DataTable HtmlToDataTable(string? htmlCode, bool convertHeader = true)
         {
             DataTable dt = new();
@@ -43,6 +48,10 @@ namespace BCV_WSCRAP_API.Utilities
             return dt;
         }
 
+        /// <summary>Converts Datatable into List</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dt"></param>
+        /// <returns>List of T</returns>
         public List<T> DataTableToList<T>(DataTable? dt)
         {
             List<T> data = [];
@@ -94,6 +103,10 @@ namespace BCV_WSCRAP_API.Utilities
             return obj;
         }
 
+        /// <summary>Parses Html Table into Datatable</summary>
+        /// <param name="dt"></param>
+        /// <param name="htmlDocument">HTML document</param>
+        /// <param name="convertHeader">Indicates if the header of the html table will be used</param>
         private void ParseHtmlTableToDataTable(ref DataTable dt, HtmlDocument htmlDocument, bool convertHeader = true)
         {
             var headers = htmlDocument.DocumentNode.SelectNodes(TABLE_HEADER);

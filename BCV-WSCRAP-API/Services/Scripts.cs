@@ -1,5 +1,6 @@
 ﻿namespace BCV_WSCRAP_API.Services
 {
+    /// <summary>Has information about js file paths</summary>
     public class Scripts
     {
         public string? GetCurrentExchangeRate { get; set; }

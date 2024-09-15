@@ -3,6 +3,7 @@ using System.Text;
 
 namespace BCV_WSCRAP_API.Utilities
 {
+    /// <summary>Handles the usage of js files by the Scrapper</summary>
     public static class FileHandler
     {
         private static readonly string CurrentPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;

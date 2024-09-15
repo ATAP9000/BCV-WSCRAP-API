@@ -43,10 +43,10 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
                 Bank = BANK_NAME
             };
 
-            //Act
+            // Act
             bankRate.AssignBankCode(bankDictionary);
 
-            //    //Assert
+            // Assert
             bankRate.BankCode.Should().BeNullOrEmpty();
         }
 
