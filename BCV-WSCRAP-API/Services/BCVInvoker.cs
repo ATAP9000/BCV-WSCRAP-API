@@ -4,6 +4,7 @@ using System.Data;
 
 namespace BCV_WSCRAP_API.Services
 {
+    /// <summary>Explicit implementation of Scrapper</summary>
     public class BCVInvoker : IBCVInvoker
     {
         private readonly IScrapper _scrapper;

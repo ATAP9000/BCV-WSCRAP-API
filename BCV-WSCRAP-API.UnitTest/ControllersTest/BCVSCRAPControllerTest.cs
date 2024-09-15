@@ -53,7 +53,7 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
             var bCVInvokerMock = new Mock<IBCVInvoker>();
             var dictionaryMock = new Mock<BankDictionary>(_configuration);
             bCVInvokerMock.Setup(e => e.GetCurrentExchangeRate())
-                          .ReturnsAsync(new List<Currency> { new Currency { Code = "1", CurrentRate = 1.1M, Name = "Test" } });
+                          .ReturnsAsync(new List<Currency> { new Currency { Code = "1", ExchangeRate = 1.1M, Name = "Test" } });
 
             BCVSCRAPController controller = new(memoryCacheMock.Object, bCVInvokerMock.Object, _configuration, dictionaryMock.Object);
 

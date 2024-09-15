@@ -2,6 +2,7 @@
 
 namespace BCV_WSCRAP_API.Services
 {
+    /// <summary>Generic Scrapper that uses PuppeteerSharp</summary>
     public class Scrapper : IScrapper
     {
         private readonly LaunchOptions _launchOptions;
@@ -16,6 +17,11 @@ namespace BCV_WSCRAP_API.Services
             };
         }
 
+        /// <summary>Executes Js on page to return the specified object</summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url">page to use the script</param>
+        /// <param name="script">Complete js Script</param>
+        /// <returns>Specified object</returns>
         public async Task<T?> GetResultOfScript<T>(string url, string script)
         {
             try
