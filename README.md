@@ -81,6 +81,7 @@ The following endpoints are available:
 
 - `GET /BCVSCRAP`: Gets Response of API.
 - `GET /BCVSCRAP/CurrentExchangeRate`: Retrieves current exchange rate of the available currencies.
+- `GET /BCVSCRAP/ExchangeRates`: Retrieves list of exchange rates (USD/BS) according to a range of dates (Note: The list will be maximum 50 objects for simplicity).
 - `GET /BCVSCRAP/RecentIntervention`: Retrieves the most recent intervention.
 - `GET /BCVSCRAP/Interventions`: Retrieves list of interventions based on a query.
 - `GET /BCVSCRAP/BankRates`: Retrieves list of informational rates of the banking system based on a query.
@@ -172,6 +173,7 @@ Los siguientes son los endpoints disponibles:
 
 - `GET /BCVSCRAP`: Obtiene una respúesta del API.
 - `GET /BCVSCRAP/CurrentExchangeRate`: Obtiene la tasa de cambio actual de las divisas disponibles.
+- `GET /BCVSCRAP/ExchangeRates`: Obtiene listado de las tasa de cambio (USD/BS) segun un rango de fechas (Nota: El listado sera maximo 50 objetos para simplicidad).
 - `GET /BCVSCRAP/RecentIntervention`: Obtiene la intervención más reciente.
 - `GET /BCVSCRAP/Interventions`: Obtiene listado de intervenciones basada en una consulta.
 - `GET /BCVSCRAP/BankRates`: Obtiene listado de las tasas informativas del sistema bancario basado en una consulta.

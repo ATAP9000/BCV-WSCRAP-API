@@ -20,6 +20,6 @@ namespace BCV_WSCRAP_API.Models
 
         public bool HasOnlyMaximumDate() => MinimumDate == null && MaximumDate != null;
 
-        public bool HasNoDates() => MinimumDate != null && MaximumDate != null;
+        public bool HasNoDates() => MinimumDate == null && MaximumDate == null;
     }
 }

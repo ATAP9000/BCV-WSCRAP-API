@@ -71,6 +71,61 @@ namespace BCV_WSCRAP_API.Test.ControllersTest
 
         #endregion
 
+        #region [ExchangeRates]
+
+        [Fact]
+        public async Task ExchangeRates_GetActionWithoutQuery_ReturnsListOfExchangeRates()
+        {
+            // Arrange
+            var memoryCacheMock = new Mock<IMemoryCache>();
+            var bCVInvokerMock = new Mock<IBCVInvoker>();
+            var dictionaryMock = new Mock<BankDictionary>(_configuration);
+            bCVInvokerMock.Setup(e => e.GetExchangeRates(null,null))
+                          .ReturnsAsync(new List<ExchangeRate> { new ExchangeRate { Date = DateTime.Now, ExchangeValue = 1.1M, InvestmentIndex = 0M, NewExpressionIndex = 0.5M } });
+
+            BCVSCRAPController controller = new(memoryCacheMock.Object, bCVInvokerMock.Object, _configuration, dictionaryMock.Object);
+
+            // Act
+            var result = await controller.ExchangeRates(null) as ObjectResult;
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            result!.Value.Should().NotBeNull();
+            result.Value.Should().BeOfType(typeof(List<ExchangeRate>));
+            result.Value.As<List<ExchangeRate>>().Should().NotBeNull();
+            result.Value.As<List<ExchangeRate>>().Should().HaveCountGreaterThan(0);
+        }
+
+        [Fact]
+        public async Task ExchangeRates_GetActionWithQuery_ReturnsListOfExchangeRates()
+        {
+            // Arrange
+            var memoryCacheMock = new Mock<IMemoryCache>();
+            var bCVInvokerMock = new Mock<IBCVInvoker>();
+            var dictionaryMock = new Mock<BankDictionary>(_configuration);
+
+            var query = new ExchangeRateQuery() { MinimumDate = DateTime.Now.AddDays(-7), MaximumDate = DateTime.Now };
+
+            bCVInvokerMock.Setup(e => e.GetExchangeRates(query.MinimumDate, query.MaximumDate))
+              .ReturnsAsync(new List<ExchangeRate> { new ExchangeRate { Date = DateTime.Now, ExchangeValue = 1.1M, InvestmentIndex = 0M, NewExpressionIndex = 0.5M } });
+
+            BCVSCRAPController controller = new(memoryCacheMock.Object, bCVInvokerMock.Object, _configuration, dictionaryMock.Object);
+
+            // Act
+            var result = await controller.ExchangeRates(query) as ObjectResult;
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            result!.Value.Should().NotBeNull();
+            result.Value.Should().BeOfType(typeof(List<ExchangeRate>));
+            result.Value.As<List<ExchangeRate>>().Should().NotBeNull();
+            result.Value.As<List<ExchangeRate>>().Should().HaveCountGreaterThan(0);
+        }
+
+        #endregion
+
         #region [RecentIntervention]
 
         [Fact]

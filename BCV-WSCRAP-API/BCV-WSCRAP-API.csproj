@@ -20,6 +20,9 @@
     <None Update="Scripts\GetCurrentExchangeRate.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Scripts\GetExchangeRates.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\GetInterventions.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

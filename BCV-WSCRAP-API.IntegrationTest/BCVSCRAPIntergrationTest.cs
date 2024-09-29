@@ -16,6 +16,7 @@ namespace BCV_WSCRAP_API.IntegrationTest
         [Theory]
         [InlineData("/BCVSCRAP")]
         [InlineData("/BCVSCRAP/CurrentExchangeRate")]
+        [InlineData("/BCVSCRAP/ExchangeRates")]
         [InlineData("/BCVSCRAP/RecentIntervention")]
         [InlineData("/BCVSCRAP/Interventions")]
         [InlineData("/BCVSCRAP/BankRates")]

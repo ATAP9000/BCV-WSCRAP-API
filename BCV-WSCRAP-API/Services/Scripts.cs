@@ -5,6 +5,8 @@
     {
         public string? GetCurrentExchangeRate { get; set; }
 
+        public string? GetExchangeRates { get; set; }
+
         public string? GetMostRecentIntervention { get; set; }
 
         public string? GetInterventions { get; set; }
