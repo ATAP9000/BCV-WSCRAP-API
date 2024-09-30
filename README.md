@@ -1,6 +1,6 @@
 # BCV Scrapper / Extractor BCV
 
-## ENG (English / Ingl√©s)
+## ENG (English / InglÈs)
 
 ### About
 
@@ -80,7 +80,8 @@ The API will be available at the following path `http://localhost:5001` by defau
 The following endpoints are available:
 
 - `GET /BCVSCRAP`: Gets Response of API.
-- `GET /BCVSCRAP/CurrentExchangeRate`: Retrieves current exchange rate of the available currencies.
+- `GET /BCVSCRAP/CurrentExchangeRate`: Retrieves current exchange rate of the available currencies (Note: On Saturdays and Sundays the Monday rate is listed, it is recommended to use the ExchangeRates call.)
+- `GET /BCVSCRAP/ExchangeRates`: Retrieves list of exchange rates (USD/BS) according to a range of dates (Note: The list will be maximum 50 objects for simplicity).
 - `GET /BCVSCRAP/RecentIntervention`: Retrieves the most recent intervention.
 - `GET /BCVSCRAP/Interventions`: Retrieves list of interventions based on a query.
 - `GET /BCVSCRAP/BankRates`: Retrieves list of informational rates of the banking system based on a query.
@@ -93,18 +94,18 @@ Examples of usage can be seen at the .http file. (Only for VS2022)
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## ESP (Spanish / Espa√±ol)
+## ESP (Spanish / EspaÒol)
 
-Un peque√±o RestAPI WebScrapper hecho en .NET 8 que obtiene multiple informacion desde el sitio web del [Banco Central de Venezuela](https://bcv.org.ve) en formato JSON.
+Un pequeÒo RestAPI WebScrapper hecho en .NET 8 que obtiene multiple informacion desde el sitio web del [Banco Central de Venezuela](https://bcv.org.ve) en formato JSON.
 
 ### Requisitos previos
 
 Antes de empezar, hay que asegurarse de tener instalado lo siguiente:
 * .NET 8.0 SDK
 
-### Instalaci√≥n Regular
+### InstalaciÛn Regular
 
-Estas instrucciones permitir√°n tener una copia del proyecto funcionando en la m√°quina local para fines de desarrollo y pruebas. El despliegue dependera de usted.
+Estas instrucciones permitir·n tener una copia del proyecto funcionando en la m·quina local para fines de desarrollo y pruebas. El despliegue dependera de usted.
 
 1. **Clonar el Repositorio**
 
@@ -120,7 +121,7 @@ Estas instrucciones permitir√°n tener una copia del proyecto funcionando en la m
 
 3. **Instalar los paquetes necesarios**
 
-   Aseg√∫rese de que todos los paquetes NuGet necesarios est√°n restaurados:
+   Aseg˙rese de que todos los paquetes NuGet necesarios est·n restaurados:
 
    ```bash
    dotnet restore
@@ -136,7 +137,7 @@ El API estara disponible en la siguiente ruta `http://localhost:5211` por defect
 
 ### Uso con Docker
 
-Estas instrucciones permitir√°n tener una aplicacion desplegada para su uso con docker.
+Estas instrucciones permitir·n tener una aplicacion desplegada para su uso con docker.
 
 1. **Clonar el Repositorio**
 
@@ -152,7 +153,7 @@ Estas instrucciones permitir√°n tener una aplicacion desplegada para su uso con 
 
 3. **Ejecutar el comando Build de Docker**
 
-   Aseg√∫rese de que todos los paquetes NuGet necesarios est√©n restaurados:
+   Aseg˙rese de que todos los paquetes NuGet necesarios est·n restaurados:
 
    ```bash
    docker build -t < IMAGE_NAME > -f Dockerfile .
@@ -170,16 +171,17 @@ El API estara disponible en la siguiente ruta `http://localhost:5001` por defect
 
 Los siguientes son los endpoints disponibles:
 
-- `GET /BCVSCRAP`: Obtiene una resp√∫esta del API.
-- `GET /BCVSCRAP/CurrentExchangeRate`: Obtiene la tasa de cambio actual de las divisas disponibles.
-- `GET /BCVSCRAP/RecentIntervention`: Obtiene la intervenci√≥n m√°s reciente.
+- `GET /BCVSCRAP`: Obtiene una resp˙esta del API.
+- `GET /BCVSCRAP/CurrentExchangeRate`: Obtiene la tasa de cambio actual de las divisas disponibles (Nota: Los sabados y domingos lista la tasa del lunes, se recomienda utilizar el llamado de ExchangeRates)
+- `GET /BCVSCRAP/ExchangeRates`: Obtiene listado de las tasa de cambio (USD/BS) segun un rango de fechas (Nota: El listado sera maximo 50 objetos para simplicidad).
+- `GET /BCVSCRAP/RecentIntervention`: Obtiene la intervenciÛn m·s reciente.
 - `GET /BCVSCRAP/Interventions`: Obtiene listado de intervenciones basada en una consulta.
 - `GET /BCVSCRAP/BankRates`: Obtiene listado de las tasas informativas del sistema bancario basado en una consulta.
 
-El proyecto tambi√©n contiene una p√°gina swagger a la que se puede acceder por la siguiente ruta `https://localhost:5211/swagger/index.html`.
+El proyecto tambiÈn contiene una p·gina swagger a la que se puede acceder por la siguiente ruta `https://localhost:5211/swagger/index.html`.
 
 Se pueden ver ejemplos de uso en el archivo .http. (Solo para VS2022)
 
 ### Licencia
 
-Distribuido bajo la licencia MIT. V√©ase `LICENSE` para m√°s informaci√≥n.
+Distribuido bajo la licencia MIT. VÈase `LICENSE` para m·s informaciÛn.

@@ -380,7 +380,7 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
             var result = query.HasNoDates();
 
             //Assert
-            result.Should().BeFalse();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -423,8 +423,8 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
             //Arrange
             BankRateQuery query = new()
             {
-                MinimumDate = DateTime.Now,
-                MaximumDate = DateTime.Now,
+                MinimumDate = null,
+                MaximumDate = null,
             };
 
             //Act

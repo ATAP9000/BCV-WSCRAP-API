@@ -7,6 +7,8 @@ namespace BCV_WSCRAP_API.Services
     {
         public Task<List<Currency>?> GetCurrentExchangeRate();
 
+        public Task<List<ExchangeRate>?> GetExchangeRates(DateTime? minimumDate, DateTime? maximumDate);
+
         public Task<Intervention?> GetRecentIntervention();
 
         public Task<List<BankRate>> GetBankRates(CustomHttpClient httpClient);

@@ -367,7 +367,7 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
 
         #region [HasNoDates Method]
         [Fact]
-        public void HasNoDates_QueryWithoutDates_ReturnsFalse()
+        public void HasNoDates_QueryWithoutDates_ReturnsTrue()
         {
             //Arrange
             InterventionQuery query = new()
@@ -380,7 +380,7 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
             var result = query.HasNoDates();
 
             //Assert
-            result.Should().BeFalse();
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -418,20 +418,20 @@ namespace BCV_WSCRAP_API.Test.ModelsTests
         }
 
         [Fact]
-        public void HasNoDates_MinimumDateAndMaximumDate_ReturnsTrue()
+        public void HasNoDates_MinimumDateAndMaximumDate_ReturnsFalse()
         {
             //Arrange
             InterventionQuery query = new()
             {
-                MinimumDate = DateTime.Now,
-                MaximumDate = DateTime.Now,
+                MinimumDate = DateTime.UtcNow,
+                MaximumDate = DateTime.UtcNow,
             };
 
             //Act
             var result = query.HasNoDates();
 
             //Assert
-            result.Should().BeTrue();
+            result.Should().BeFalse();
         }
 
         #endregion

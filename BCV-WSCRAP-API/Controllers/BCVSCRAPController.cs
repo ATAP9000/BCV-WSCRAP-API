@@ -47,6 +47,16 @@ namespace BCV_WSCRAP_API.Controllers
             return Ok(result);
         }
 
+        /// <summary>Retrieves list of exchange rate of USD to BS</summary>
+        /// <returns>List of Currencies</returns>
+        [HttpGet("ExchangeRates")]
+        public async Task<IActionResult> ExchangeRates([FromQuery] ExchangeRateQuery? query)
+        {
+            query ??= new ExchangeRateQuery();
+            var result = await _BCVInvoker.GetExchangeRates(query.MinimumDate, query.MaximumDate);
+            return Ok(result);
+        }
+
         /// <summary>Retrieves the most recent intervention</summary>
         /// <returns>An Intervention</returns>
         [HttpGet("RecentIntervention")]

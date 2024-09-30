@@ -28,6 +28,31 @@ namespace BCV_WSCRAP_API.Services
             return await _scrapper.GetResultOfScript<List<Currency>>(_connectionStrings.BCVBase!, script);
         }
 
+        public async Task<List<ExchangeRate>?> GetExchangeRates(DateTime? minimumDate, DateTime? maximumDate)
+        {
+            string auxMinimumDate = "new Date();";
+            string auxMaximumDate = "new Date();";
+
+            string scriptPath = Path.Combine(SCRIPT_PATH, _scripts.GetExchangeRates!);
+            string script = FileHandler.GetFile(scriptPath);
+
+            if (minimumDate != null && minimumDate != DateTime.MinValue)
+            {
+                script = script.Replace("true", "false");
+                auxMinimumDate = $"new Date({minimumDate.Value.Year},{minimumDate.Value.Month - 1},{minimumDate.Value.Day})";
+            }
+
+            if (maximumDate != null && maximumDate != DateTime.MinValue)
+                auxMaximumDate = $"new Date({maximumDate.Value.Year},{maximumDate.Value.Month - 1},{maximumDate.Value.Day})";
+
+            script = script.Replace("new Date();", auxMinimumDate);
+            script = script.Replace("new Date();;", auxMaximumDate);
+
+            string? scriptResult = await _scrapper.GetResultOfScriptWithReload<string>(_connectionStrings.BCVExchangeRates!.ToString(), script);
+            DataTable exchangeRatesDT = _dataTableConverter.HtmlToDataTable(scriptResult);
+            return _dataTableConverter.DataTableToList<ExchangeRate>(exchangeRatesDT);
+        }
+
         public async Task<Intervention?> GetRecentIntervention()
         {
             string scriptPath = Path.Combine(SCRIPT_PATH, _scripts.GetMostRecentIntervention!);
