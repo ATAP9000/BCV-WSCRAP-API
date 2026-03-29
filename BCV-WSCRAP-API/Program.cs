@@ -12,7 +12,7 @@ var configSection = builder.Configuration.GetSection("AppFeatures");
 // Add services to the container.
 builder.Services.AddSingleton(x => new BankDictionary(builder.Configuration));
 builder.Services.AddSingleton(x => new ConnectionStrings(builder.Configuration.GetSection("ConnectionStrings")));
-builder.Services.AddScoped<IScrapper>(x => new Scrapper());
+builder.Services.AddScoped<IScrapper>(x => new Scrapper(builder.Configuration.GetValue<string>("AgentUser")!));
 builder.Services.AddScoped<IBCVInvoker>(x => new BCVInvoker(builder.Configuration, x.GetRequiredService<ConnectionStrings>(), x.GetRequiredService<IScrapper>()));
 
 builder.Services.AddControllers();
