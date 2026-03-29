@@ -18,34 +18,23 @@ RUN dotnet publish -c release --property:PublishDir=../out
 # Deployment Stage
 
 # Step 1: Use the 'microsoft asptnet 8.0' official image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:6c4df091e4e531bb93bdbfe7e7f0998e7ced344f54426b7e874116a3dc3233ff
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine@sha256:354c2fcfb3c23abc60d98f0380cdb403fba844a62a123b6343a8c9611209995c
 
 # Step 2: Add relevant packages to puppeteer to run
-RUN apt-get update && \
-    apt-get install -y \
-        wget \
-        gnupg2 \
-        apt-transport-https \
-        ca-certificates \
-        fonts-liberation \
-        libappindicator3-1 \
-        libasound2 \
-        libatk-bridge2.0-0 \
-        libatk1.0-0 \
-        libcups2 \
-        libdbus-1-3 \
-        libgdk-pixbuf2.0-0 \
-        libnspr4 \
-        libnss3 \
-        libx11-xcb1 \
-        libxcomposite1 \
-        libxdamage1 \
-        libxrandr2 \
-        xdg-utils \
-        libgbm1 \
-        libxcb-dri3-0 \
-        libxss1 && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    udev \
+    ttf-freefont \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    nodejs \
+    npm
+
+# Tell Puppeteer to use the system Chromium
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 # Step 3: Change our working directory to the root of the API
 WORKDIR /BCV-WSCRAP-API

@@ -7,7 +7,9 @@ namespace BCV_WSCRAP_API.Services
     {
         private readonly LaunchOptions _launchOptions;
 
-        public Scrapper()
+        private readonly string _agentUser;
+
+        public Scrapper(string agentUser)
         {
             _launchOptions = new()
             {
@@ -15,6 +17,7 @@ namespace BCV_WSCRAP_API.Services
                 Args = ["--no-sandbox",
                     "--disable-setuid-sandbox"]
             };
+            _agentUser = agentUser;
         }
 
         /// <summary>Executes Js on page to return the specified object</summary>
@@ -31,8 +34,12 @@ namespace BCV_WSCRAP_API.Services
 
                 await using var browser = await Puppeteer.LaunchAsync(_launchOptions);
                 await using var page = await browser.NewPageAsync();
-
-                var response = await page.GoToAsync(url, waitUntil: WaitUntilNavigation.DOMContentLoaded);
+                await page.SetUserAgentAsync(_agentUser);
+                var response = await page.GoToAsync(url,  new NavigationOptions
+                {
+                    WaitUntil = [WaitUntilNavigation.DOMContentLoaded],
+                    ReferrerPolicy = "origin"
+                });
                 var result = await page.EvaluateFunctionAsync(script);
                 return result == null ? default : result.ToObject<T>();
             }
