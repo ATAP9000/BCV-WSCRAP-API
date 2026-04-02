@@ -32,7 +32,7 @@ namespace BCV_WSCRAP_API.IntegrationTest
             var response = await client.GetAsync(url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().BeSuccessful();
         }
     }
 }
