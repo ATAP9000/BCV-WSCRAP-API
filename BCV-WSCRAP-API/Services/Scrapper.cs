@@ -12,7 +12,7 @@ namespace BCV_WSCRAP_API.Services
 
         public Scrapper(string agentUser, string browserIpAddress)
         {
-            _isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
+            _isTest = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
             if (_isTest)
             {
                 _launchOptions = new()
