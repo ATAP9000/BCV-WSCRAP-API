@@ -1,7 +1,7 @@
 using BCV_WSCRAP_API.Services;
 using PuppeteerSharp;
 
-bool isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
+bool isTest = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
 
 Console.WriteLine( isTest ? "Tests" : "Dev/Prod");
 
