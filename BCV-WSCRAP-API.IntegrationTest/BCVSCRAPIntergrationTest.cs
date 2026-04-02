@@ -14,13 +14,13 @@ namespace BCV_WSCRAP_API.IntegrationTest
             _factory = factory;
         }
 
-        [Theory(Skip = "Temporarily disabled: issues with browser dependencies in GitHub Actions")]
-        [InlineData("/BCVSCRAP")]
-        [InlineData("/BCVSCRAP/CurrentExchangeRate")]
-        [InlineData("/BCVSCRAP/ExchangeRates")]
-        [InlineData("/BCVSCRAP/RecentIntervention")]
-        [InlineData("/BCVSCRAP/Interventions")]
-        [InlineData("/BCVSCRAP/BankRates")]
+        // [Theory]
+        // [InlineData("/BCVSCRAP")]
+        // [InlineData("/BCVSCRAP/CurrentExchangeRate")]
+        // [InlineData("/BCVSCRAP/ExchangeRates")]
+        // [InlineData("/BCVSCRAP/RecentIntervention")]
+        // [InlineData("/BCVSCRAP/Interventions")]
+        // [InlineData("/BCVSCRAP/BankRates")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
