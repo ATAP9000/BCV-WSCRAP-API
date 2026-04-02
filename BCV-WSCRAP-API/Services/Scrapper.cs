@@ -6,11 +6,23 @@ namespace BCV_WSCRAP_API.Services
     public class Scrapper : IScrapper
     {
         private readonly ConnectOptions _connectOptions;
-
+        private readonly LaunchOptions? _launchOptions;
         private readonly string _agentUser;
+        private bool _isTest;
 
         public Scrapper(string agentUser, string browserIpAddress)
         {
+            _isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
+            if (_isTest)
+            {
+                _launchOptions = new()
+                {
+                    Headless = true,
+                    Args = ["--no-sandbox",
+                    "--disable-setuid-sandbox"]
+                };
+            }
+
             _connectOptions = new()
             {
                 BrowserWSEndpoint = $"ws://{browserIpAddress}",
@@ -30,7 +42,13 @@ namespace BCV_WSCRAP_API.Services
             {
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
                     return default;
-                await using var browser = await Puppeteer.ConnectAsync(_connectOptions);
+
+                IBrowser browser;
+                if (_isTest)
+                    browser = await Puppeteer.LaunchAsync(_launchOptions);
+                else
+                    browser = await Puppeteer.ConnectAsync(_connectOptions);
+
                 await using var page = await browser.NewPageAsync();
                 await page.SetUserAgentAsync(_agentUser);
                 var response = await page.GoToAsync(url, new NavigationOptions
@@ -60,7 +78,12 @@ namespace BCV_WSCRAP_API.Services
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
                     return default;
 
-                await using var browser = await Puppeteer.ConnectAsync(_connectOptions);
+                IBrowser browser;
+                if (_isTest)
+                    browser = await Puppeteer.LaunchAsync(_launchOptions);
+                else
+                    browser = await Puppeteer.ConnectAsync(_connectOptions);
+                    
                 await using var page = await browser.NewPageAsync();
                 var firstResponse = await page.GoToAsync(url, waitUntil: WaitUntilNavigation.DOMContentLoaded);
                 var newUrl = await page.EvaluateFunctionAsync(script);

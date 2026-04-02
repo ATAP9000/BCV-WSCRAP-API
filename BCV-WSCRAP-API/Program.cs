@@ -1,4 +1,14 @@
 using BCV_WSCRAP_API.Services;
+using PuppeteerSharp;
+
+bool isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
+
+if (isTest)
+{
+    Console.WriteLine("Setting Up Browser for tests...");
+    await new BrowserFetcher().DownloadAsync();
+    Console.WriteLine("Set Up Complete!");
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
