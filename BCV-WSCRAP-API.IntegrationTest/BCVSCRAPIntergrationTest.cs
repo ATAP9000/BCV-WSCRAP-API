@@ -4,6 +4,7 @@ using System.Net;
 
 namespace BCV_WSCRAP_API.IntegrationTest
 {
+    [Trait("Category", "Integration")]
     public class BCVSCRAPIntergrationTest : IClassFixture<WebApplicationFactory<Program>>
     {
         private readonly WebApplicationFactory<Program> _factory;
