@@ -121,7 +121,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
             string script = TEST_SCRIPT_WITH_RESULT;
 
             //Act
-            var result = await scrapper.GetResultOfScript<object>(url, script);
+            var result = await scrapper.GetResultOfScript<object>(url, script, true);
 
             //Assert
             result.Should().NotBeNull();
@@ -228,7 +228,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
             string script = TEST_SCRIPT_WITH_RESULT;
 
             //Act
-            var result = await scrapper.GetResultOfScriptWithReload<object>(url, script);
+            var result = await scrapper.GetResultOfScriptWithReload<object>(url, script, true);
 
             //Assert
             result.Should().NotBeNull();

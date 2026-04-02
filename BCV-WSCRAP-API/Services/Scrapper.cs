@@ -36,7 +36,7 @@ namespace BCV_WSCRAP_API.Services
         /// <param name="url">page to use the script</param>
         /// <param name="script">Complete js Script</param>
         /// <returns>Specified object</returns>
-        public async Task<T?> GetResultOfScript<T>(string url, string script, bool isTest: false)
+        public async Task<T?> GetResultOfScript<T>(string url, string script, bool isTest = false)
         {
             if(isTest)
                 return (T)Convert.ChangeType(new object(), typeof(T));
@@ -74,8 +74,10 @@ namespace BCV_WSCRAP_API.Services
         /// <param name="url">page to use the script</param>
         /// <param name="script">Complete js Script</param>
         /// <returns>Specified object</returns>
-        public async Task<T?> GetResultOfScriptWithReload<T>(string url, string script)
+        public async Task<T?> GetResultOfScriptWithReload<T>(string url, string script, bool isTest = false)
         {
+            if(isTest)
+                return (T)Convert.ChangeType(new object(), typeof(T));
             try
             {
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
