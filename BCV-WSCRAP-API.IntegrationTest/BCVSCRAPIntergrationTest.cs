@@ -14,7 +14,7 @@ namespace BCV_WSCRAP_API.IntegrationTest
             _factory = factory;
         }
 
-        [Theory]
+        [Theory(Skip = "Temporarily disabled: issues with browser dependencies in GitHub Actions")]
         [InlineData("/BCVSCRAP")]
         [InlineData("/BCVSCRAP/CurrentExchangeRate")]
         [InlineData("/BCVSCRAP/ExchangeRates")]
