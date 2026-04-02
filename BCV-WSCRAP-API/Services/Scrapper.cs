@@ -36,8 +36,11 @@ namespace BCV_WSCRAP_API.Services
         /// <param name="url">page to use the script</param>
         /// <param name="script">Complete js Script</param>
         /// <returns>Specified object</returns>
-        public async Task<T?> GetResultOfScript<T>(string url, string script)
+        public async Task<T?> GetResultOfScript<T>(string url, string script, bool isTest: false)
         {
+            if(isTest)
+                return (T)Convert.ChangeType(new object(), typeof(T));
+
             try
             {
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
@@ -83,7 +86,7 @@ namespace BCV_WSCRAP_API.Services
                     browser = await Puppeteer.LaunchAsync(_launchOptions);
                 else
                     browser = await Puppeteer.ConnectAsync(_connectOptions);
-                    
+
                 await using var page = await browser.NewPageAsync();
                 var firstResponse = await page.GoToAsync(url, waitUntil: WaitUntilNavigation.DOMContentLoaded);
                 var newUrl = await page.EvaluateFunctionAsync(script);
