@@ -28,4 +28,4 @@ jobs:
       run: |
         echo "The value of IsTest is: $IsTest"
         printenv | grep IsTest
-        dotnet test --filter "FullyQualifiedName!~BCVSCRAPIntergrationTest" --logger trx --results-directory "TestResults-8.0.x"
+        dotnet test --filter "FullyQualifiedName!~BCV-WSCRAP-API.IntegrationTest" --logger trx --results-directory "TestResults-8.0.x"
