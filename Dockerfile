@@ -15,40 +15,32 @@ RUN dotnet restore
 # Step 5: Build and publish a release
 RUN dotnet publish -c release --property:PublishDir=../out
 
-# Deployment Stage
+# Deployment Stage - Switch to Debian Bookworm Slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-bookworm-slim@sha256:d4d80bf500f4c8307e5c44bf61eb58aec027da07c4d1c40816846fe5eef3f34d
 
-# Step 1: Use the 'microsoft asptnet 8.0' official image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine@sha256:354c2fcfb3c23abc60d98f0380cdb403fba844a62a123b6343a8c9611209995c
+# 1. Install Essential libraries for Debian
+# No need for gcompat or libc6-compat here as glibc is native
+RUN apt-get update && apt-get install -y \
+    curl \
+    tini \
+    && rm -rf /var/lib/apt/lists/*
 
-# Step 2: Add relevant packages to puppeteer to run
-RUN apk add --no-cache \
-    udev \
-    ttf-freefont \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    nodejs \
-    npm
+# 2. Install Lightpanda
+# We download the nightly x86_64 binary directly
+RUN curl -L -o /usr/bin/lightpanda https://github.com/lightpanda-io/browser/releases/download/nightly/lightpanda-x86_64-linux && \
+    chmod +x /usr/bin/lightpanda
 
-# Tell Puppeteer to use the system Chromium
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
-
-# Step 3: Change our working directory to the root of the API
-WORKDIR /BCV-WSCRAP-API
-
-# Step 4: Copy from build
+# 3. Setup Application directory
 COPY --from=build-env /BCV-WSCRAP-API/out .
 
-# Step 5: Expose Port 5000
+# 4. Networking & Environment Config
+# We keep the CDP port (9222) internal to the container for security
 EXPOSE 5000
+ENV ASPNETCORE_URLS=http://+:5000 \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    LIGHTPANDA_CDP_URL=ws://127.0.0.1:9222 \
+    DOTNET_RUNNING_IN_CONTAINER=true
 
-# Step 6: Add Env Variables
-ENV ASPNETCORE_HTTP_PORT=https://+:5001
-ENV ASPNETCORE_URLS=http://+:5000
-ENV ASPNETCORE_ENVIRONMENT=Testing
-
-# Step 7: Define Entrypoint
-ENTRYPOINT ["dotnet", "BCV-WSCRAP-API.dll"]
+# 5. Use tini to manage processes
+# We bind lightpanda to 127.0.0.1 so it's only accessible from your .NET API
+ENTRYPOINT ["tini", "--", "sh", "-c", "lightpanda serve --host 127.0.0.1 --port 9222 & dotnet BCV-WSCRAP-API.dll"]
