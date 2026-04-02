@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <IsTest>1</IsTest>
+    </EnvironmentVariables>
+  </RunConfiguration>
+
+  <TestRunParameters>
+    <Parameter name="webAppUrl" value="http://localhost:5000" />
+  </TestRunParameters>
+</RunSettings>

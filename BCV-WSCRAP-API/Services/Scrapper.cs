@@ -5,17 +5,28 @@ namespace BCV_WSCRAP_API.Services
     /// <summary>Generic Scrapper that uses PuppeteerSharp</summary>
     public class Scrapper : IScrapper
     {
-        private readonly LaunchOptions _launchOptions;
-
+        private readonly ConnectOptions _connectOptions;
+        private readonly LaunchOptions? _launchOptions;
         private readonly string _agentUser;
+        private bool _isTest;
 
-        public Scrapper(string agentUser)
+        public Scrapper(string agentUser, string browserIpAddress)
         {
-            _launchOptions = new()
+            _isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
+            if (_isTest)
             {
-                Headless = true,
-                Args = ["--no-sandbox",
+                _launchOptions = new()
+                {
+                    Headless = true,
+                    Args = ["--no-sandbox",
                     "--disable-setuid-sandbox"]
+                };
+            }
+
+            _connectOptions = new()
+            {
+                BrowserWSEndpoint = $"ws://{browserIpAddress}",
+                IgnoreHTTPSErrors = true
             };
             _agentUser = agentUser;
         }
@@ -32,10 +43,15 @@ namespace BCV_WSCRAP_API.Services
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
                     return default;
 
-                await using var browser = await Puppeteer.LaunchAsync(_launchOptions);
+                IBrowser browser;
+                if (_isTest)
+                    browser = await Puppeteer.LaunchAsync(_launchOptions);
+                else
+                    browser = await Puppeteer.ConnectAsync(_connectOptions);
+
                 await using var page = await browser.NewPageAsync();
                 await page.SetUserAgentAsync(_agentUser);
-                var response = await page.GoToAsync(url,  new NavigationOptions
+                var response = await page.GoToAsync(url, new NavigationOptions
                 {
                     WaitUntil = [WaitUntilNavigation.DOMContentLoaded],
                     ReferrerPolicy = "origin"
@@ -62,7 +78,12 @@ namespace BCV_WSCRAP_API.Services
                 if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(script))
                     return default;
 
-                await using var browser = await Puppeteer.LaunchAsync(_launchOptions);
+                IBrowser browser;
+                if (_isTest)
+                    browser = await Puppeteer.LaunchAsync(_launchOptions);
+                else
+                    browser = await Puppeteer.ConnectAsync(_connectOptions);
+
                 await using var page = await browser.NewPageAsync();
                 var firstResponse = await page.GoToAsync(url, waitUntil: WaitUntilNavigation.DOMContentLoaded);
                 var newUrl = await page.EvaluateFunctionAsync(script);
@@ -72,7 +93,7 @@ namespace BCV_WSCRAP_API.Services
 
                 var query = newUrl.ToObject<string>();
 
-                var secondResponse = await page.GoToAsync(url + "?"  + query);
+                var secondResponse = await page.GoToAsync(url + "?" + query);
                 var result = await page.EvaluateFunctionAsync(script);
                 return result == null ? default : result.ToObject<T>();
             }

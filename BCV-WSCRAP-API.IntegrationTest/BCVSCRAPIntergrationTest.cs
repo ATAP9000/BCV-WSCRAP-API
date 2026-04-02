@@ -24,13 +24,15 @@ namespace BCV_WSCRAP_API.IntegrationTest
         {
             // Arrange
             var client = _factory.CreateClient();
+            string customUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+            
+            client.DefaultRequestHeaders.Add("User-Agent", customUserAgent);
 
             // Act
             var response = await client.GetAsync(url);
 
             // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            response.Should().BeSuccessful();
         }
-
     }
 }

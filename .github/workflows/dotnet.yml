@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -25,4 +23,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
+      env:
+        IsTest: "1"
       run: dotnet test --logger trx --results-directory "TestResults-8.0.x"

@@ -1,6 +1,6 @@
 # BCV Scrapper / Extractor BCV
 
-## ENG (English / Inglés)
+## ENG (English / Inglï¿½s)
 
 ### About
 
@@ -43,6 +43,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 Your API will be available at `http://localhost:5211` by default.
 
+5. **Download Lightpanda**
+`https://lightpanda.io/docs/open-source/installation`
+
+Be sure to define the same ip with its port in the appsettings.json at CDPIpAddress.
+
 ### Usage with Docker
 
 These instructions will allow you to have an application deployed for use with docker.
@@ -73,7 +78,7 @@ These instructions will allow you to have an application deployed for use with d
    docker run -p 5000:5000 -p 5001:5001 < IMAGE_NAME >
    ```
 
-The API will be available at the following path `http://localhost:5001` by default.
+The API will be available at the following path `http://localhost:5000` by default.
 
 ### API Endpoints
 
@@ -94,18 +99,18 @@ Examples of usage can be seen at the .http file. (Only for VS2022)
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
-## ESP (Spanish / Español)
+## ESP (Spanish / Espaï¿½ol)
 
-Un pequeño RestAPI WebScrapper hecho en .NET 8 que obtiene multiple informacion desde el sitio web del [Banco Central de Venezuela](https://bcv.org.ve) en formato JSON.
+Un pequeï¿½o RestAPI WebScrapper hecho en .NET 8 que obtiene multiple informacion desde el sitio web del [Banco Central de Venezuela](https://bcv.org.ve) en formato JSON.
 
 ### Requisitos previos
 
 Antes de empezar, hay que asegurarse de tener instalado lo siguiente:
 * .NET 8.0 SDK
 
-### Instalación Regular
+### Instalaciï¿½n Regular
 
-Estas instrucciones permitirán tener una copia del proyecto funcionando en la máquina local para fines de desarrollo y pruebas. El despliegue dependera de usted.
+Estas instrucciones permitirï¿½n tener una copia del proyecto funcionando en la mï¿½quina local para fines de desarrollo y pruebas. El despliegue dependera de usted.
 
 1. **Clonar el Repositorio**
 
@@ -121,7 +126,7 @@ Estas instrucciones permitirán tener una copia del proyecto funcionando en la má
 
 3. **Instalar los paquetes necesarios**
 
-   Asegúrese de que todos los paquetes NuGet necesarios están restaurados:
+   Asegï¿½rese de que todos los paquetes NuGet necesarios estï¿½n restaurados:
 
    ```bash
    dotnet restore
@@ -135,9 +140,14 @@ Estas instrucciones permitirán tener una copia del proyecto funcionando en la má
 
 El API estara disponible en la siguiente ruta `http://localhost:5211` por defecto.
 
+5. **Descargar Lightpanda**
+`https://lightpanda.io/docs/open-source/installation`
+
+Configurar el mismo ip con su puerto dentro de la secciÃ³n CDPIpAddress del archivo appsettings.json
+
 ### Uso con Docker
 
-Estas instrucciones permitirán tener una aplicacion desplegada para su uso con docker.
+Estas instrucciones permitirï¿½n tener una aplicacion desplegada para su uso con docker.
 
 1. **Clonar el Repositorio**
 
@@ -153,7 +163,7 @@ Estas instrucciones permitirán tener una aplicacion desplegada para su uso con d
 
 3. **Ejecutar el comando Build de Docker**
 
-   Asegúrese de que todos los paquetes NuGet necesarios están restaurados:
+   Asegï¿½rese de que todos los paquetes NuGet necesarios estï¿½n restaurados:
 
    ```bash
    docker build -t < IMAGE_NAME > -f Dockerfile .
@@ -165,23 +175,23 @@ Estas instrucciones permitirán tener una aplicacion desplegada para su uso con d
    docker run -p 5000:5000 -p 5001:5001 < IMAGE_NAME >
    ```
 
-El API estara disponible en la siguiente ruta `http://localhost:5001` por defecto.
+El API estara disponible en la siguiente ruta `http://localhost:5000` por defecto.
 
 ### API Endpoints
 
 Los siguientes son los endpoints disponibles:
 
-- `GET /BCVSCRAP`: Obtiene una respúesta del API.
+- `GET /BCVSCRAP`: Obtiene una respï¿½esta del API.
 - `GET /BCVSCRAP/CurrentExchangeRate`: Obtiene la tasa de cambio actual de las divisas disponibles (Nota: Los sabados y domingos lista la tasa del lunes, se recomienda utilizar el llamado de ExchangeRates)
 - `GET /BCVSCRAP/ExchangeRates`: Obtiene listado de las tasa de cambio (USD/BS) segun un rango de fechas (Nota: El listado sera maximo 50 objetos para simplicidad).
-- `GET /BCVSCRAP/RecentIntervention`: Obtiene la intervención más reciente.
+- `GET /BCVSCRAP/RecentIntervention`: Obtiene la intervenciï¿½n mï¿½s reciente.
 - `GET /BCVSCRAP/Interventions`: Obtiene listado de intervenciones basada en una consulta.
 - `GET /BCVSCRAP/BankRates`: Obtiene listado de las tasas informativas del sistema bancario basado en una consulta.
 
-El proyecto también contiene una página swagger a la que se puede acceder por la siguiente ruta `https://localhost:5211/swagger/index.html`.
+El proyecto tambiï¿½n contiene una pï¿½gina swagger a la que se puede acceder por la siguiente ruta `https://localhost:5211/swagger/index.html`.
 
 Se pueden ver ejemplos de uso en el archivo .http. (Solo para VS2022)
 
 ### Licencia
 
-Distribuido bajo la licencia MIT. Véase `LICENSE` para más información.
+Distribuido bajo la licencia MIT. Vï¿½ase `LICENSE` para mï¿½s informaciï¿½n.
