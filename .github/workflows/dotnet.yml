@@ -25,7 +25,4 @@ jobs:
     - name: Test
       env:
         IsTest: "1"
-      run: |
-        echo "The value of IsTest is: $IsTest"
-        printenv | grep IsTest
-        dotnet test --logger trx --results-directory "TestResults-8.0.x"
+      run: dotnet test --logger trx --results-directory "TestResults-8.0.x"
