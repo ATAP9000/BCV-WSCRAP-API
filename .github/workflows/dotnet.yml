@@ -28,4 +28,4 @@ jobs:
       run: |
         echo "The value of IsTest is: $IsTest"
         printenv | grep IsTest
-        dotnet test --logger trx --results-directory "TestResults-8.0.x"
+        dotnet test --no-incremental --logger trx --results-directory "TestResults-8.0.x"
