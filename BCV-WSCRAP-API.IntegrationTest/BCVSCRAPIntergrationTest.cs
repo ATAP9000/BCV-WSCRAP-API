@@ -31,6 +31,5 @@ namespace BCV_WSCRAP_API.IntegrationTest
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
-
     }
 }

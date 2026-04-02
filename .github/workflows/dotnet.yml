@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      IsTest: "1"
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -25,6 +23,8 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
+      env:
+        IsTest: "1"
       run: |
         echo "The value of IsTest is: $IsTest"
         printenv | grep IsTest
