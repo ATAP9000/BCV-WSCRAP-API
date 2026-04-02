@@ -8,7 +8,7 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
     public class ScrapperTest 
     {
         private const string TEST_SCRIPT = "() => { console.log('hi'); }";
-        private const string TEST_SCRIPT_WITH_RESULT = "() => { return 1; }";
+        private const string TEST_SCRIPT_WITH_RESULT = "() => ({ value: 1 })";
         private const string TEST_URL = "https://www.google.com/";
         private const string TEST_WRONG_URL = "https://www.google.come/";
         private const string TEST_WRONG_SCRIPT = "console.log('hi')";
