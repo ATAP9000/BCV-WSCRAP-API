@@ -116,12 +116,12 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         public async Task GetResultOfScript_ExistingUrlAndGOODScriptwithresult_ReturnsObject()
         {
             //Arrange
-            Scrapper scrapper = new(configuration.GetValue<string>("AgentUser")!,configuration.GetValue<string>("CDPIpAddress")!);
+            FakeScrapper scrapper = new();
             string url = TEST_URL;
             string script = TEST_SCRIPT_WITH_RESULT;
 
             //Act
-            var result = await scrapper.GetResultOfScript<object>(url, script, true);
+            var result = await scrapper.GetResultOfScript<object>(url, script);
 
             //Assert
             result.Should().NotBeNull();
@@ -223,12 +223,12 @@ namespace BCV_WSCRAP_API.Test.ServicesTests
         public async Task GetResultOfScriptWithReload_ExistingUrlAndGOODScriptwithresult_ReturnsObject()
         {
             //Arrange
-            Scrapper scrapper = new(configuration.GetValue<string>("AgentUser")!,configuration.GetValue<string>("CDPIpAddress")!);
+            FakeScrapper scrapper = new();
             string url = TEST_URL;
             string script = TEST_SCRIPT_WITH_RESULT;
 
             //Act
-            var result = await scrapper.GetResultOfScriptWithReload<object>(url, script, true);
+            var result = await scrapper.GetResultOfScriptWithReload<object>(url, script);
 
             //Assert
             result.Should().NotBeNull();
