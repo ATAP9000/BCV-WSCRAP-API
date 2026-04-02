@@ -3,12 +3,16 @@ using PuppeteerSharp;
 
 bool isTest = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsTest"));
 
+Console.WriteLine( isTest ? "Tests" : "Dev/Prod");
+
 if (isTest)
 {
-    Console.WriteLine("Setting Up Browser for tests...");
+    Console.WriteLine("Setting Up browser for tests...");
     await new BrowserFetcher().DownloadAsync();
-    Console.WriteLine("Set Up Complete!");
+    Console.WriteLine("Set up complete!");
 }
+else
+    Console.WriteLine("Using local connection...");
 
 var builder = WebApplication.CreateBuilder(args);
 
